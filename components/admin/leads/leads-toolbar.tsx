@@ -15,8 +15,8 @@ interface LeadsToolbarProps {
   setSearch: (value: string) => void
   statusFilter: string
   setStatusFilter: (value: string) => void
-  assignedFilter: string
-  setAssignedFilter: (value: string) => void
+  assignedFilter?: string
+  setAssignedFilter?: React.Dispatch<React.SetStateAction<string>>
   propertyTypeFilter: string
   setPropertyTypeFilter: (value: string) => void
   sort: "desc" | "asc"
@@ -71,7 +71,8 @@ export function LeadsToolbar({
             ))}
           </SelectContent>
         </Select>
-
+        
+        {assignedFilter !== undefined && setAssignedFilter && (
         <Select value={assignedFilter} onValueChange={setAssignedFilter}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Assignation" />
@@ -87,6 +88,7 @@ export function LeadsToolbar({
               ))}
           </SelectContent>
         </Select>
+        )}
 
         <Select value={propertyTypeFilter} onValueChange={setPropertyTypeFilter}>
           <SelectTrigger className="w-[180px]">
@@ -113,9 +115,11 @@ export function LeadsToolbar({
         </Select>
 
         <div className="flex gap-2 ml-auto">
+          {assignedFilter !== undefined && setAssignedFilter && (
           <Button variant={view === "kanban" ? "default" : "outline"} size="sm" onClick={() => setView("kanban")}>
             <LayoutGrid className="h-4 w-4" />
           </Button>
+          )}
           <Button variant={view === "table" ? "default" : "outline"} size="sm" onClick={() => setView("table")}>
             <Table className="h-4 w-4" />
           </Button>

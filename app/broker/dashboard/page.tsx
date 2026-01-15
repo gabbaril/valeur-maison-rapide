@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { getSupabaseBrowser } from "@/lib/supabase-client"
+import { LeadsToolbar } from "@/components/admin/leads/leads-toolbar"
 
 interface Lead {
   id: string
@@ -34,6 +35,10 @@ export default function BrokerDashboard() {
   const [leads, setLeads] = useState<Lead[]>([])
   const [profile, setProfile] = useState<BrokerProfile | null>(null)
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState("")
+  const [statusFilter, setStatusFilter] = useState("all")
+  const [propertyTypeFilter, setPropertyTypeFilter] = useState("all")
+  const [sort, setSort] = useState<"desc" | "asc">("desc")
   const router = useRouter()
 
   useEffect(() => {
@@ -126,6 +131,53 @@ export default function BrokerDashboard() {
     })
   }
 
+  const filteredLeads = useMemo(() => {
+    let filtered = [...leads]
+
+    // Search filter
+    if (search) {
+      const searchLower = search.toLowerCase()
+      filtered = filtered.filter(
+        (lead) =>
+          lead.full_name.toLowerCase().includes(searchLower) ||
+          lead.email.toLowerCase().includes(searchLower) ||
+          lead.phone.toLowerCase().includes(searchLower) ||
+          lead.address.toLowerCase().includes(searchLower) ||
+          lead.city?.toLowerCase().includes(searchLower) ||
+          lead.lead_number.toLowerCase().includes(searchLower)
+      )
+    }
+
+    // Status filter
+    if (statusFilter !== "all") {
+      filtered = filtered.filter((lead) => lead.status === statusFilter)
+    }
+
+    // Property type filter
+    if (propertyTypeFilter !== "all") {
+      filtered = filtered.filter((lead) => lead.property_type === propertyTypeFilter)
+    }
+
+    // Sort by date
+    filtered.sort((a, b) => {
+      const dateA = new Date(a.created_at).getTime()
+      const dateB = new Date(b.created_at).getTime()
+      return sort === "desc" ? dateB - dateA : dateA - dateB
+    })
+
+    return filtered
+  }, [leads, search, statusFilter, propertyTypeFilter, sort])
+
+  const statuses = useMemo(() => {
+    return Array.from(new Set(leads.map((l) => l.status || "unclassified")))
+  }, [leads])
+
+  const propertyTypes = useMemo(() => {
+    return Array.from(new Set(leads.map((l) => l.property_type).filter(Boolean)))
+  }, [leads])
+
+
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 p-6 flex items-center justify-center">
@@ -182,8 +234,25 @@ export default function BrokerDashboard() {
         <Card className="p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4">Mes Leads</h2>
 
-          {leads.length === 0 ? (
-            <div className="text-center py-12 text-gray-500">Aucun lead assigné pour le moment</div>
+          <LeadsToolbar
+            search={search}
+            setSearch={setSearch}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+            propertyTypeFilter={propertyTypeFilter}
+            setPropertyTypeFilter={setPropertyTypeFilter}
+            sort={sort}
+            setSort={setSort}
+            view="table"
+            setView={() => {}}
+            brokers={[]} // no broker filter needed
+            statuses={statuses}
+            propertyTypes={propertyTypes}
+          />
+
+
+          {filteredLeads.length === 0 ? (
+            <div className="text-center py-12 text-gray-500">Aucun lead trouvé</div>
           ) : (
             <div className="overflow-x-auto">
               <Table>
@@ -200,7 +269,7 @@ export default function BrokerDashboard() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {leads.map((lead) => (
+                  {filteredLeads.map((lead) => (
                     <TableRow key={lead.id}>
                       <TableCell className="font-mono text-xs">{lead.lead_number}</TableCell>
                       <TableCell className="text-sm text-gray-600">{formatDate(lead.created_at)}</TableCell>
@@ -229,20 +298,23 @@ export default function BrokerDashboard() {
                       </TableCell>
                       <TableCell className="text-sm">{lead.property_type}</TableCell>
                       <TableCell>
-                        <Select value={lead.status} onValueChange={(value) => handleStatusChange(lead.id, value)}>
-                          <SelectTrigger className="w-[140px]">
-                            <SelectValue>
-                              <Badge className={getStatusColor(lead.status)}>{lead.status}</Badge>
-                            </SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="assigned">assigned</SelectItem>
-                            <SelectItem value="contacted">contacted</SelectItem>
-                            <SelectItem value="converted">converted</SelectItem>
-                            <SelectItem value="closed">closed</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </TableCell>
+                      <Select
+                        value={lead.status}
+                        onValueChange={(value) => handleStatusChange(lead.id, value)}
+                      >
+                        <SelectTrigger className="w-[140px]">
+                          <SelectValue>
+                            <Badge className={getStatusColor(lead.status)}>{lead.status}</Badge>
+                          </SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="assigned">assigned</SelectItem>
+                          <SelectItem value="contacted">contacted</SelectItem>
+                          <SelectItem value="converted">converted</SelectItem>
+                          <SelectItem value="closed">closed</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </TableCell>
                       <TableCell>
                         <Button
                           variant="outline"
@@ -260,6 +332,7 @@ export default function BrokerDashboard() {
             </div>
           )}
         </Card>
+
       </div>
     </div>
   )
