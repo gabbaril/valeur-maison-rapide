@@ -101,7 +101,7 @@ export default function BrokerDashboard() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "new":
+      case "unassigned":
         return "bg-blue-100 text-blue-800"
       case "assigned":
         return "bg-yellow-100 text-yellow-800"
@@ -162,7 +162,7 @@ export default function BrokerDashboard() {
           <Card className="p-6">
             <div className="text-sm font-medium text-gray-600">Nouveaux</div>
             <div className="text-3xl font-bold text-blue-600 mt-2">
-              {leads.filter((l) => l.status === "new" || l.status === "assigned").length}
+              {leads.filter((l) => l.status === "unassigned" || l.status === "assigned").length}
             </div>
           </Card>
           <Card className="p-6">

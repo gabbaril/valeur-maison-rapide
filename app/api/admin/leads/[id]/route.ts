@@ -64,7 +64,7 @@ export async function PATCH(
           }
         : {
             assigned_to: null,
-            status: "new",
+            status: "unassigned",
             assigned_at: null,
           }
 

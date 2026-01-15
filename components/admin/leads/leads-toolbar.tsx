@@ -78,7 +78,6 @@ export function LeadsToolbar({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Tous</SelectItem>
-            <SelectItem value="unassigned">Non-assignés</SelectItem>
             {brokers
               .filter((b) => b)
               .map((broker) => (

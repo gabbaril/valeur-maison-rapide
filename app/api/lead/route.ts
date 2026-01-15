@@ -53,7 +53,7 @@ export async function POST(request: Request) {
           address: address,
           city: city,
           property_type: propertyType,
-          status: "new",
+          status: "unassigned",
           utm_source: utm_source || null,
           utm_medium: utm_medium || null,
           utm_campaign: utm_campaign || null,

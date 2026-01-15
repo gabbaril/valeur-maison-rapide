@@ -319,7 +319,7 @@ export default function AdminPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "new":
+      case "unassigned":
         return "bg-blue-100 text-blue-800"
       case "assigned":
         return "bg-yellow-100 text-yellow-800"

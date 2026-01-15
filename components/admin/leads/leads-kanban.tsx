@@ -32,7 +32,7 @@ interface LeadsKanbanProps {
 
 export function LeadsKanban({ leads, brokers, onOpenLead, getStatusColor }: LeadsKanbanProps) {
   const columns = [
-    { id: "new", title: "Nouveau", status: "new" },
+    { id: "unassigned", title: "Non assigné", status: "unassigned" },
     { id: "assigned", title: "Assigné", status: "assigned" },
     { id: "contacted", title: "Contacté", status: "contacted" },
     { id: "converted", title: "Converti", status: "converted" },
@@ -40,7 +40,7 @@ export function LeadsKanban({ leads, brokers, onOpenLead, getStatusColor }: Lead
   ]
 
   const getLeadsByStatus = (status: string) => {
-    return leads.filter((lead) => lead.status === status || (!lead.status && status === "new"))
+    return leads.filter((lead) => lead.status === status || (!lead.status && status === "unassigned"))
   }
 
   return (
