@@ -42,11 +42,11 @@ export function ResetPasswordDialog({
         </DialogHeader>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <Label>Email de l'utilisateur</Label>
+            <Label className="mb-1">Email de l'utilisateur</Label>
             <Input value={selectedUser?.email || ""} disabled className="bg-gray-50" />
           </div>
           <div>
-            <Label htmlFor="newPassword">Nouveau mot de passe</Label>
+            <Label className="mb-1" htmlFor="newPassword">Nouveau mot de passe</Label>
             <Input
               id="newPassword"
               type="password"

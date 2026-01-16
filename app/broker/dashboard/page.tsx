@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { getSupabaseBrowser } from "@/lib/supabase-client"
 import { LeadsToolbar } from "@/components/admin/leads/leads-toolbar"
+import { BrokerResetPasswordDialog } from "@/components/broker/reset-password-dialog"
 
 interface Lead {
   id: string
@@ -31,6 +32,10 @@ interface BrokerProfile {
   territory: string | null
 }
 
+interface User {
+  email: string
+}
+
 export default function BrokerDashboard() {
   const [leads, setLeads] = useState<Lead[]>([])
   const [profile, setProfile] = useState<BrokerProfile | null>(null)
@@ -40,6 +45,7 @@ export default function BrokerDashboard() {
   const [propertyTypeFilter, setPropertyTypeFilter] = useState("all")
   const [sort, setSort] = useState<"desc" | "asc">("desc")
   const router = useRouter()
+  const [showPasswordModal, setShowPasswordModal] = useState(false)
 
   useEffect(() => {
     checkAuth()
@@ -176,8 +182,6 @@ export default function BrokerDashboard() {
     return Array.from(new Set(leads.map((l) => l.property_type).filter(Boolean)))
   }, [leads])
 
-
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 p-6 flex items-center justify-center">
@@ -199,9 +203,19 @@ export default function BrokerDashboard() {
               </p>
             )}
           </div>
-          <Button variant="outline" onClick={handleLogout}>
-            Déconnexion
-          </Button>
+          <div>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setShowPasswordModal(true)}
+              className="mr-2"
+            >
+              Changer le mot de passe
+            </Button>
+            <Button variant="outline" onClick={handleLogout}>
+              Déconnexion
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -332,8 +346,14 @@ export default function BrokerDashboard() {
             </div>
           )}
         </Card>
-
+      
       </div>
+
+      <BrokerResetPasswordDialog
+        open={showPasswordModal}
+        onOpenChange={setShowPasswordModal}
+      />
+
     </div>
   )
 }
