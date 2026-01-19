@@ -3,6 +3,7 @@
 import { CheckCircle2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { useCookieConsent } from "@/components/cookie-consent"
 
 interface LandingSectionsProps {
   scrollToForm: () => void
@@ -597,10 +598,12 @@ export function Footer() {
       <div className="mx-auto max-w-6xl text-center">
         <p className="text-sm sm:text-base font-semibold text-black mb-2">© 2026 — Valeurmaisonrapide.com</p>
         <p className="text-xs sm:text-sm text-gray-700 mb-3 md:mb-4">Propulsé par la technologie de Valeurmaison.ai</p>
-        <div className="mb-3 md:mb-4">
+        <div className="mb-3 md:mb-4 flex items-center justify-center gap-3">
           <a href="/politique-de-confidentialite" className="text-xs text-gray-500 hover:text-gray-700 underline">
             Politique de confidentialité
           </a>
+          <span className="text-gray-300">|</span>
+          <CookieSettingsButton />
         </div>
         <p className="text-xs text-gray-500 max-w-2xl mx-auto leading-relaxed px-2">
           Cette analyse ne constitue pas une évaluation agréée au sens de l'OEAQ. Les informations sont fournies à titre
@@ -608,5 +611,19 @@ export function Footer() {
         </p>
       </div>
     </footer>
+  )
+}
+
+function CookieSettingsButton() {
+  const { openPreferences } = useCookieConsent()
+  
+  return (
+    <button
+      type="button"
+      onClick={openPreferences}
+      className="text-xs text-gray-500 hover:text-gray-700 underline cursor-pointer"
+    >
+      Gérer les cookies
+    </button>
   )
 }
