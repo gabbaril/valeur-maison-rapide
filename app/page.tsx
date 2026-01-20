@@ -448,7 +448,7 @@ export default function RealEstateLanding() {
                             </label>
                             <div className="space-y-2">
                               {[
-                                "Simplement connaître la valeur de ma propriété",
+                
                                 "Évaluer mes options pour 2026–2027",
                                 "Vente possible dans les prochains mois",
                                 "Déjà en réflexion active pour vendre",
