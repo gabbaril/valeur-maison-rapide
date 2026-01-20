@@ -7,11 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 
 interface LeadFormData {
-  // MOMENT IDÉAL DE CONTACT
-  contact_weekday: string
-  contact_weekend: string
-  contact_notes: string
-
   // INFORMATION SUR LA MAISON
   property_usage: string
   owners_count: string
@@ -57,9 +52,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
   const totalSteps = 2
 
   const [formData, setFormData] = useState<LeadFormData>({
-    contact_weekday: "",
-    contact_weekend: "",
-    contact_notes: "",
+
     property_usage: "",
     owners_count: "",
     is_occupied: "",
@@ -198,7 +191,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Fiche d'évaluation déjà finalisée avec succès</h1>
             <p className="text-gray-600">
               Votre demande est maintenant en traitement prioritaire. L'expert local assigné à votre dossier vous
-              contactera sous peu avec votre évaluation détaillée.
+              contactera sous peu afin de vous présenter votre évaluation détaillée.
             </p>
             {usedAt && (
               <p className="text-sm text-gray-500 mt-2">
@@ -230,8 +223,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
             </div>
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Fiche d'évaluation finalisée avec succès</h1>
             <p className="text-gray-600">
-              Vos informations ont été enregistrées et votre demande est maintenant en traitement prioritaire. L'expert
-              local assigné à votre dossier vous contactera sous peu avec votre évaluation détaillée.
+              Vos informations ont été enregistrées et votre demande est maintenant en traitement prioritaire. L'expert local assigné à votre dossier vous contactera sous peu afin de vous présenter votre évaluation détaillée.
             </p>
           </div>
         </Card>
@@ -534,7 +526,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       >
                         <option value="">Sélectionner...</option>
-                        <option value="Dans les prochains mois">Dans les prochains mois</option>
+                        <option value="Dans les 3 prochains mois">Dans les 3 prochains mois</option>
                         <option value="D'ici 6 mois à 1 an">D'ici 6 mois à 1 an</option>
                         <option value="Dans plus d'un an">Dans plus d'un an</option>
                         <option value="Selon les opportunités">Selon les opportunités</option>
