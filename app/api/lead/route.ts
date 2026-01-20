@@ -111,11 +111,11 @@ export async function POST(request: Request) {
                     </div>
 
                     <div style="font-size:14px;line-height:22px;color:#374151;margin:0 0 14px 0;">
-                      Pour obtenir une estimation <strong>plus précise</strong> et <strong>plus rapidement</strong>, merci de compléter votre fiche.
+                      Pour obtenir une estimation <strong>plus précise</strong> et <strong>plus rapidement</strong>, merci de compléter votre fiche immobilière.
                     </div>
 
                     <div style="font-size:14px;line-height:22px;color:#374151;margin:0 0 16px 0;">
-                      <strong>Les demandes avec fiche complétée sont traitées en priorité.</strong>
+                      <strong>Les demandes avec une fiche immobilière complétée sont traitées en priorité.</strong>
                     </div>
 
                     <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;border-spacing:0;">
@@ -188,7 +188,7 @@ export async function POST(request: Request) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="x-apple-disable-message-reformatting" />
-    <title>Demande d'évaluation reçue</title>
+    <title>Nous avons bien reçu votre demande d'évaluation</title>
   </head>
   <body style="margin:0;padding:0;background:#f6f7fb;">
     <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">
@@ -307,7 +307,7 @@ Un expert immobilier local validera l'estimation afin d'obtenir la valeur la plu
 Si des informations supplémentaires sont nécessaires, vous serez contacté dans les prochaines 24 à 48 heures.
 
 Merci pour votre confiance,
-Valeur Maison Rapide
+L'équipe de Valeur Maison Rapide
 ${websiteUrl}
 
 Si vous n'avez pas fait cette demande, vous pouvez ignorer ce message.`
