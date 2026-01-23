@@ -220,13 +220,13 @@ export async function POST(request: Request) {
 
             <h3 style="color: #dc2626;">📋 OBJECTIF ET CONTEXTE</h3>
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
-              ${income_property_data.evaluation_reason ? `<tr><td style="padding: 4px 0; font-weight: bold;">Raison de l'évaluation:</td><td>${income_property_data.evaluation_reason}</td></tr>` : ""}
-              ${income_property_data.sale_planned ? `<tr><td style="padding: 4px 0; font-weight: bold;">Vente envisagée:</td><td>${income_property_data.sale_planned}</td></tr>` : ""}
+              ${income_property_data.evaluation_reason ? `<tr><td style="padding: 4px 0; font-weight: bold;">Pour quelle raison souhaitez-vous obtenir une évaluation ?:</td><td>${income_property_data.evaluation_reason}</td></tr>` : ""}
+              ${income_property_data.sale_planned ? `<tr><td style="padding: 4px 0; font-weight: bold;">Envisagez-vous de potentiellement vendre l'immeuble ?:</td><td>${income_property_data.sale_planned}</td></tr>` : ""}
               ${income_property_data.sale_horizon ? `<tr><td style="padding: 4px 0; font-weight: bold;">Horizon de vente:</td><td>${income_property_data.sale_horizon}</td></tr>` : ""}
-              ${income_property_data.owner_estimated_value ? `<tr><td style="padding: 4px 0; font-weight: bold;">Valeur estimée:</td><td>${income_property_data.owner_estimated_value}</td></tr>` : ""}
+              ${income_property_data.owner_estimated_value ? `<tr><td style="padding: 4px 0; font-weight: bold;">Selon-vous quelle est la valeur estimée de l'immeuble ?:</td><td>${income_property_data.owner_estimated_value}</td></tr>` : ""}
             </table>
 
-            <h3 style="color: #dc2626;">💰 DÉPENSES ANNUELLES</h3>
+            <h3 style="color: #dc2626;">💰 DÉPENSES ANNUELLES (OPTIONNEL)</h3>
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
               ${income_property_data.municipal_taxes ? `<tr><td style="padding: 4px 0; font-weight: bold;">Taxes municipales:</td><td>${income_property_data.municipal_taxes}</td></tr>` : ""}
               ${income_property_data.school_taxes ? `<tr><td style="padding: 4px 0; font-weight: bold;">Taxes scolaires:</td><td>${income_property_data.school_taxes}</td></tr>` : ""}
