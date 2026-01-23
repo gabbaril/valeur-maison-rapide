@@ -540,13 +540,13 @@ export default function IncomePropertyEvaluationForm({
                     {/* Raison de l'évaluation */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Raison de l'évaluation
+                        Pour quelle raison souhaitez-vous obtenir une évaluation ?
                       </label>
                       <textarea
                         value={formData.evaluation_reason}
                         onChange={(e) => handleChange("evaluation_reason", e.target.value)}
                         rows={3}
-                        placeholder="Ex: Planification de vente, refinancement, succession..."
+                        placeholder="Ex : Obtenir la valeur, planification de vente, refinancement, succession…"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       />
                     </div>
@@ -554,7 +554,7 @@ export default function IncomePropertyEvaluationForm({
                     {/* Vente envisagée */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Vente envisagée ?
+                        Envisagez-vous de potentiellement vendre l'immeuble ?
                       </label>
                       <select
                         value={formData.sale_planned}
@@ -590,20 +590,20 @@ export default function IncomePropertyEvaluationForm({
                     {/* Valeur estimée par le propriétaire */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Valeur estimée par le propriétaire
+                        Selon-vous quelle est la valeur estimée de l'immeuble ?
                       </label>
                       <input
                         type="text"
                         value={formData.owner_estimated_value}
                         onChange={(e) => handleChange("owner_estimated_value", e.target.value)}
-                        placeholder="Ex: 650 000 $"
+                        placeholder="Ex : 650 000 $"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       />
                     </div>
 
                     {/* Dépenses annuelles */}
                     <div className="bg-gray-50 p-4 rounded-lg">
-                      <h3 className="font-semibold text-gray-900 mb-4">Dépenses annuelles</h3>
+                      <h3 className="font-semibold text-gray-900 mb-4">Dépenses annuelles (OPTIONNEL)</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">Taxes municipales</label>
