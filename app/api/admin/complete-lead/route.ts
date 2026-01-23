@@ -7,6 +7,8 @@ export async function POST(request: Request) {
     const body = await request.json()
     const {
       token,
+      form_type, // 'standard' or 'income_property'
+      income_property_data, // Data for income property form
       notes,
       postal_code,
       // MOMENT IDÉAL DE CONTACT
@@ -92,6 +94,178 @@ export async function POST(request: Request) {
       )
     }
 
+    // Handle income property form submission
+    if (form_type === "income_property" && income_property_data) {
+      // Insert into evaluation_income_property table
+      const { error: incomePropertyError } = await supabase.from("evaluation_income_property").insert({
+        lead_id: tokenData.lead_id,
+        units_count: income_property_data.units_count ? parseInt(income_property_data.units_count) : null,
+        occupation_type: income_property_data.occupation_type || null,
+        rent_unit_1: income_property_data.rent_unit_1 || null,
+        rent_unit_2: income_property_data.rent_unit_2 || null,
+        rent_unit_3: income_property_data.rent_unit_3 || null,
+        rent_unit_4: income_property_data.rent_unit_4 || null,
+        gross_monthly_revenue: income_property_data.gross_monthly_revenue || null,
+        rented_units_count: income_property_data.rented_units_count
+          ? parseInt(income_property_data.rented_units_count)
+          : null,
+        rent_includes_heating: income_property_data.rent_includes_heating || false,
+        rent_includes_electricity: income_property_data.rent_includes_electricity || false,
+        rent_includes_internet: income_property_data.rent_includes_internet || false,
+        rent_includes_other: income_property_data.rent_includes_other || false,
+        rent_includes_other_details: income_property_data.rent_includes_other_details || null,
+        has_active_leases: income_property_data.has_active_leases || null,
+        lease_renewal_date: income_property_data.lease_renewal_date || null,
+        parking_info: income_property_data.parking_info || null,
+        basement_info: income_property_data.basement_info || null,
+        recent_renovations: income_property_data.recent_renovations || null,
+        renovations_details: income_property_data.renovations_details || null,
+        evaluation_reason: income_property_data.evaluation_reason || null,
+        sale_planned: income_property_data.sale_planned || null,
+        sale_horizon: income_property_data.sale_horizon || null,
+        owner_estimated_value: income_property_data.owner_estimated_value || null,
+        municipal_taxes: income_property_data.municipal_taxes || null,
+        school_taxes: income_property_data.school_taxes || null,
+        insurance: income_property_data.insurance || null,
+        snow_maintenance: income_property_data.snow_maintenance || null,
+        utilities_if_owner_paid: income_property_data.utilities_if_owner_paid || null,
+        important_notes: income_property_data.important_notes || null,
+      })
+
+      if (incomePropertyError) {
+        console.error("[v0] Error inserting income property data:", incomePropertyError)
+        return NextResponse.json(
+          {
+            ok: false,
+            error: "Erreur lors de l'enregistrement des données de l'immeuble à revenus",
+            details: incomePropertyError.message,
+          },
+          { status: 500 },
+        )
+      }
+
+      // Update lead as finalized
+      const { error: updateError } = await supabase
+        .from("leads")
+        .update({
+          is_finalized: true,
+          finalized_at: new Date().toISOString(),
+          // Store a reference that this is an income property evaluation
+          sale_reason: income_property_data.evaluation_reason || null,
+          potential_sale_desire: income_property_data.sale_planned || null,
+          ideal_sale_deadline: income_property_data.sale_horizon || null,
+          approximate_market_value: income_property_data.owner_estimated_value || null,
+        })
+        .eq("id", tokenData.lead_id)
+
+      if (updateError) {
+        console.error("[v0] Update error:", updateError)
+        return NextResponse.json(
+          {
+            ok: false,
+            error: "Erreur mise à jour lead",
+            details: updateError.message,
+          },
+          { status: 500 },
+        )
+      }
+
+      // Mark token as used
+      await supabase
+        .from("lead_access_tokens")
+        .update({
+          is_used: true,
+          used_at: new Date().toISOString(),
+        })
+        .eq("id", tokenData.id)
+
+      // Send notification email for income property
+      if (process.env.RESEND_API_KEY && process.env.LEAD_TO_EMAIL) {
+        const resend = new Resend(process.env.RESEND_API_KEY)
+
+        const incomePropertyEmailHtml = `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #16a34a; border-bottom: 2px solid #16a34a; padding-bottom: 10px;">✅ Lead finalisé - Immeuble à revenus - ${leadData.full_name}</h2>
+            
+            <div style="background: #f0fdf4; padding: 16px; border-radius: 8px; margin: 16px 0;">
+              <p style="margin: 0; font-weight: bold; color: #166534;">Le lead a complété sa fiche d'évaluation pour un immeuble à revenus.</p>
+            </div>
+
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 8px 0; font-weight: bold;">Lead #:</td><td>${leadData.lead_number}</td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Nom complet:</td><td>${leadData.full_name}</td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Email:</td><td><a href="mailto:${leadData.email}">${leadData.email}</a></td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Téléphone:</td><td><a href="tel:${leadData.phone}">${leadData.phone}</a></td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Adresse:</td><td>${leadData.address}</td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Type:</td><td>${leadData.property_type}</td></tr>
+            </table>
+
+            <h3 style="color: #dc2626; margin-top: 24px;">🏢 INFORMATIONS SUR L'IMMEUBLE</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
+              ${income_property_data.units_count ? `<tr><td style="padding: 4px 0; font-weight: bold;">Nombre de logements:</td><td>${income_property_data.units_count}</td></tr>` : ""}
+              ${income_property_data.occupation_type ? `<tr><td style="padding: 4px 0; font-weight: bold;">Type d'occupation:</td><td>${income_property_data.occupation_type}</td></tr>` : ""}
+              ${income_property_data.gross_monthly_revenue ? `<tr><td style="padding: 4px 0; font-weight: bold;">Revenu brut mensuel:</td><td>${income_property_data.gross_monthly_revenue}</td></tr>` : ""}
+              ${income_property_data.rented_units_count ? `<tr><td style="padding: 4px 0; font-weight: bold;">Unités louées:</td><td>${income_property_data.rented_units_count}</td></tr>` : ""}
+              ${income_property_data.rent_unit_1 ? `<tr><td style="padding: 4px 0; font-weight: bold;">Loyer logement #1:</td><td>${income_property_data.rent_unit_1}</td></tr>` : ""}
+              ${income_property_data.rent_unit_2 ? `<tr><td style="padding: 4px 0; font-weight: bold;">Loyer logement #2:</td><td>${income_property_data.rent_unit_2}</td></tr>` : ""}
+              ${income_property_data.rent_unit_3 ? `<tr><td style="padding: 4px 0; font-weight: bold;">Loyer logement #3:</td><td>${income_property_data.rent_unit_3}</td></tr>` : ""}
+              ${income_property_data.rent_unit_4 ? `<tr><td style="padding: 4px 0; font-weight: bold;">Loyer logement #4:</td><td>${income_property_data.rent_unit_4}</td></tr>` : ""}
+              ${income_property_data.has_active_leases ? `<tr><td style="padding: 4px 0; font-weight: bold;">Baux en vigueur:</td><td>${income_property_data.has_active_leases}</td></tr>` : ""}
+              ${income_property_data.lease_renewal_date ? `<tr><td style="padding: 4px 0; font-weight: bold;">Renouvellement baux:</td><td>${income_property_data.lease_renewal_date}</td></tr>` : ""}
+              ${income_property_data.parking_info ? `<tr><td style="padding: 4px 0; font-weight: bold;">Stationnement:</td><td>${income_property_data.parking_info}</td></tr>` : ""}
+              ${income_property_data.basement_info ? `<tr><td style="padding: 4px 0; font-weight: bold;">Sous-sol:</td><td>${income_property_data.basement_info}</td></tr>` : ""}
+              ${income_property_data.recent_renovations ? `<tr><td style="padding: 4px 0; font-weight: bold;">Rénovations récentes:</td><td>${income_property_data.recent_renovations}</td></tr>` : ""}
+              ${income_property_data.renovations_details ? `<tr><td style="padding: 4px 0; font-weight: bold;">Détails rénovations:</td><td>${income_property_data.renovations_details}</td></tr>` : ""}
+            </table>
+
+            <h3 style="color: #dc2626;">📋 OBJECTIF ET CONTEXTE</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
+              ${income_property_data.evaluation_reason ? `<tr><td style="padding: 4px 0; font-weight: bold;">Raison de l'évaluation:</td><td>${income_property_data.evaluation_reason}</td></tr>` : ""}
+              ${income_property_data.sale_planned ? `<tr><td style="padding: 4px 0; font-weight: bold;">Vente envisagée:</td><td>${income_property_data.sale_planned}</td></tr>` : ""}
+              ${income_property_data.sale_horizon ? `<tr><td style="padding: 4px 0; font-weight: bold;">Horizon de vente:</td><td>${income_property_data.sale_horizon}</td></tr>` : ""}
+              ${income_property_data.owner_estimated_value ? `<tr><td style="padding: 4px 0; font-weight: bold;">Valeur estimée:</td><td>${income_property_data.owner_estimated_value}</td></tr>` : ""}
+            </table>
+
+            <h3 style="color: #dc2626;">💰 DÉPENSES ANNUELLES</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
+              ${income_property_data.municipal_taxes ? `<tr><td style="padding: 4px 0; font-weight: bold;">Taxes municipales:</td><td>${income_property_data.municipal_taxes}</td></tr>` : ""}
+              ${income_property_data.school_taxes ? `<tr><td style="padding: 4px 0; font-weight: bold;">Taxes scolaires:</td><td>${income_property_data.school_taxes}</td></tr>` : ""}
+              ${income_property_data.insurance ? `<tr><td style="padding: 4px 0; font-weight: bold;">Assurances:</td><td>${income_property_data.insurance}</td></tr>` : ""}
+              ${income_property_data.snow_maintenance ? `<tr><td style="padding: 4px 0; font-weight: bold;">Déneigement/entretien:</td><td>${income_property_data.snow_maintenance}</td></tr>` : ""}
+              ${income_property_data.utilities_if_owner_paid ? `<tr><td style="padding: 4px 0; font-weight: bold;">Électricité/chauffage (si payé):</td><td>${income_property_data.utilities_if_owner_paid}</td></tr>` : ""}
+            </table>
+
+            ${
+              income_property_data.important_notes
+                ? `
+            <div style="background: #fef9c3; padding: 12px; border-radius: 8px; margin-top: 16px;">
+              <p style="margin: 0; font-weight: bold; color: #854d0e;">Notes importantes:</p>
+              <p style="margin: 8px 0 0 0; color: #854d0e;">${income_property_data.important_notes}</p>
+            </div>
+            `
+                : ""
+            }
+
+            <p style="color: #666; font-size: 12px; margin-top: 24px;">Email envoyé automatiquement depuis valeurmaisonrapide.com</p>
+          </div>
+        `
+
+        try {
+          await resend.emails.send({
+            from: "Valeur Maison <nepasrepondre@valeurmaisonrapide.com>",
+            to: process.env.LEAD_TO_EMAIL,
+            subject: `✅ Lead finalisé (Immeuble à revenus) - ${leadData.full_name} - ${leadData.address}`,
+            html: incomePropertyEmailHtml,
+          })
+        } catch (emailError: any) {
+          console.error("[v0] Erreur envoi email de finalisation:", emailError)
+        }
+      }
+
+      return NextResponse.json({ ok: true })
+    }
+
+    // Standard form submission (existing logic)
     const { error: updateError } = await supabase
       .from("leads")
       .update({
@@ -265,11 +439,9 @@ export async function POST(request: Request) {
             subject: `✅ Lead finalisé - ${leadData.full_name} - ${leadData.address}`,
             html: emailHtml,
           })
-          console.log("[v0] Email de finalisation envoyé à l'admin uniquement")
         }
       } catch (emailError: any) {
         console.error("[v0] Erreur envoi email de finalisation:", emailError)
-        // Don't fail the request if email fails
       }
     }
 

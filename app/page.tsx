@@ -367,8 +367,8 @@ export default function RealEstateLanding() {
                               <option value="">Sélectionnez...</option>
                               <option value="unifamiliale">Unifamiliale</option>
                               <option value="condo">Condo</option>
-                              <option value="duplex">Duplex</option>
-                              <option value="triplex">Triplex</option>
+                              <option value="immeuble-revenus-4-et-moins">Immeubles à revenus (4 logements et -)</option>
+                              <option value="immeuble-revenus-5-et-plus">Immeubles à revenus (5 logements et +)</option>
                               <option value="chalet">Chalet</option>
                               <option value="terrain">Terrain</option>
                               <option value="autre">Autre</option>

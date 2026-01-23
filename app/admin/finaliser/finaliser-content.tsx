@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import IncomePropertyEvaluationForm from "@/components/income-property-evaluation-form"
 
 interface LeadFormData {
   // INFORMATION SUR LA MAISON
@@ -33,13 +34,31 @@ interface LeadFormData {
   approximate_market_value: string
 }
 
+// Helper function to determine if property type is an income property
+function isIncomeProperty(propertyType: string | null | undefined): boolean {
+  if (!propertyType) return false
+  
+  const incomePropertyTypes = [
+    // New values
+    "immeuble-revenus-4-et-moins",
+    "immeuble-revenus-5-et-plus",
+    "Immeubles à revenus (4 logements et -)",
+    "Immeubles à revenus (5 logements et +)",
+    // Legacy values for backward compatibility
+    "duplex",
+    "Duplex",
+    "triplex",
+    "Triplex",
+    "quadruplex",
+    "Quadruplex",
+  ]
+  
+  return incomePropertyTypes.includes(propertyType)
+}
+
 export default function FinaliserContent({ token: tokenProp }: { token?: string | null } = {}) {
   const searchParams = useSearchParams()
   const token = tokenProp || searchParams?.get("token")
-
-  console.log("[v0] Token from prop:", tokenProp)
-  console.log("[v0] Token from searchParams:", searchParams?.get("token"))
-  console.log("[v0] Final token being used:", token)
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -52,7 +71,6 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
   const totalSteps = 2
 
   const [formData, setFormData] = useState<LeadFormData>({
-
     property_usage: "",
     owners_count: "",
     is_occupied: "",
@@ -78,17 +96,14 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
 
   useEffect(() => {
     if (!token) {
-      console.log("[v0] No token found, showing error")
       setError("Token manquant dans l'URL")
       setLoading(false)
       return
     }
 
-    console.log("[v0] Fetching lead data with token:", token)
     fetch(`/api/admin/lead-by-token?token=${token}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("[v0] API response:", data)
         if (data.ok) {
           setLead(data.lead)
         } else {
@@ -98,8 +113,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
           }
         }
       })
-      .catch((err) => {
-        console.log("[v0] Network error:", err)
+      .catch(() => {
         setError("Erreur réseau")
       })
       .finally(() => setLoading(false))
@@ -125,8 +139,6 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
-    console.log("[v0] Form submission started on step", currentStep)
     setSubmitting(true)
 
     try {
@@ -135,6 +147,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           token,
+          form_type: "standard",
           ...formData,
         }),
       })
@@ -165,6 +178,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
     goToPreviousStep()
   }
 
+  // Loading state
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -178,6 +192,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
     )
   }
 
+  // Error state
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -211,6 +226,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
     )
   }
 
+  // Success state
   if (success) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -231,6 +247,19 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
     )
   }
 
+  // Route to income property form if applicable
+  if (lead && isIncomeProperty(lead.property_type)) {
+    return (
+      <IncomePropertyEvaluationForm
+        lead={lead}
+        token={token || ""}
+        onSuccess={() => setSuccess(true)}
+        onError={(err) => setError(err)}
+      />
+    )
+  }
+
+  // Standard evaluation form
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-4xl mx-auto">
@@ -259,7 +288,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
 
           <div className="mb-6 bg-red-50 border border-red-600 rounded-lg p-4">
             <p className="text-sm text-gray-700 leading-relaxed">
-              <span className="inline-block mr-1">⏱️</span>
+              <span className="inline-block mr-1">&#9201;</span>
               <span className="font-medium">Les demandes avec fiche complétée sont traitées plus rapidement.</span>
               <br />
               Ces informations nous permettent d'affiner votre estimation et de vous fournir une valeur plus précise.
@@ -469,7 +498,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                   onClick={handleContinueClick}
                   className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all"
                 >
-                  Continuer →
+                  Continuer
                 </Button>
               </div>
             </div>
@@ -570,9 +599,6 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                     <input type="hidden" value={formData.contact_person} />
                     <input type="hidden" value={formData.property_to_sell_type} />
                     <input type="hidden" value={formData.sector} />
-                    <input type="hidden" value={formData.contact_weekday} />
-                    <input type="hidden" value={formData.contact_weekend} />
-                    <input type="hidden" value={formData.contact_notes} />
                   </div>
                 </div>
               </div>
@@ -583,7 +609,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                   onClick={handleBackClick}
                   className="bg-gray-500 hover:bg-gray-600 text-white font-semibold px-8 py-3 rounded-lg"
                 >
-                  ← Retour
+                  Retour
                 </Button>
                 <Button
                   type="submit"
