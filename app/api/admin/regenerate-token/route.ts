@@ -24,10 +24,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: false, error: "Lead introuvable" }, { status: 404 })
     }
 
-    // Generate new token
+    // Generate new token (no time-based expiration - valid until lead is finalized)
     const newToken = `${leadId}-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`
+    // Set a far future date for expires_at to maintain DB schema compatibility
     const expiresAt = new Date()
-    expiresAt.setHours(expiresAt.getHours() + 72)
+    expiresAt.setFullYear(expiresAt.getFullYear() + 100)
 
     const { data: tokenData, error: tokenError } = await supabase
       .from("lead_access_tokens")

@@ -60,10 +60,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: false, error: "Token invalide" }, { status: 404 })
     }
 
-    if (new Date(tokenData.expires_at) < new Date()) {
-      return NextResponse.json({ ok: false, error: "Token expiré" }, { status: 403 })
-    }
-
+    // Token validity is now based on is_used status, not time expiration
     if (tokenData.is_used) {
       return NextResponse.json(
         {

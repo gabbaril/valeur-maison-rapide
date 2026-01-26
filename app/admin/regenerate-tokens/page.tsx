@@ -55,8 +55,8 @@ export default function RegenerateTokensPage() {
         <CardHeader>
           <CardTitle>Régénérer tous les tokens</CardTitle>
           <CardDescription>
-            Cette action va créer de nouveaux tokens valides 72h pour tous les leads et renvoyer les emails avec le
-            bouton de finalisation
+            Cette action va créer de nouveaux tokens pour tous les leads et renvoyer les emails avec le
+            bouton de finalisation (les tokens restent valides jusqu'à complétion)
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -119,7 +119,7 @@ export default function RegenerateTokensPage() {
             <div className="font-semibold text-blue-900 mb-2">Cette action va:</div>
             <ul className="list-disc list-inside space-y-1 text-blue-700">
               <li>Supprimer tous les anciens tokens</li>
-              <li>Générer de nouveaux tokens valides 72h</li>
+              <li>Générer de nouveaux tokens (valides jusqu'à complétion du lead)</li>
               <li>Envoyer un email avec le bouton de finalisation à chaque lead</li>
               <li>Remplacer les liens existants (même s'ils sont encore valides)</li>
             </ul>
