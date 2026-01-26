@@ -69,10 +69,11 @@ export async function POST(request: Request) {
         console.log("[v0] Lead sauvegardé dans Supabase avec ID:", leadData?.id)
         leadDbId = leadData?.id
 
-        // Generate secure access token valid for 72 hours
+        // Generate secure access token (no time-based expiration - valid until lead is finalized)
         accessToken = `${leadData.id}-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`
+        // Set a far future date for expires_at to maintain DB schema compatibility
         const expiresAt = new Date()
-        expiresAt.setHours(expiresAt.getHours() + 72)
+        expiresAt.setFullYear(expiresAt.getFullYear() + 100)
 
         await supabase.from("lead_access_tokens").insert({
           lead_id: leadData.id,
@@ -136,7 +137,7 @@ export async function POST(request: Request) {
                     </div>
 
                     <div style="margin-top:10px;font-size:12px;line-height:18px;color:#6B7280;">
-                      Ce lien est valide pendant 72 heures et votre fiche ne peut être soumise qu'une seule fois.
+                      Ce lien reste valide jusqu'à ce que votre fiche soit complétée. Elle ne peut être soumise qu'une seule fois.
                     </div>
                   </td>
                 </tr>

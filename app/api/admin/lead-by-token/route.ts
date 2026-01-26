@@ -31,16 +31,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ ok: false, error: "Token invalide" }, { status: 404 })
     }
 
-    // Check if token is expired
-    const now = new Date()
-    const expiresAt = new Date(tokenData.expires_at)
-    console.log("[v0 API] Checking expiration:", { expired: expiresAt < now })
-
-    if (expiresAt < now) {
-      console.log("[v0 API] Token expired")
-      return NextResponse.json({ ok: false, error: "Token expiré" }, { status: 403 })
-    }
-
+    // Check if token has already been used
     if (tokenData.is_used) {
       console.log("[v0 API] Token already used")
       return NextResponse.json(

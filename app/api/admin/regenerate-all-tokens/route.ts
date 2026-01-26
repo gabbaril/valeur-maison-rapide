@@ -42,9 +42,11 @@ export async function POST(request: Request) {
         // Delete old tokens for this lead
         await supabase.from("lead_access_tokens").delete().eq("lead_id", lead.id)
 
-        // Generate new token
+        // Generate new token (no time-based expiration - valid until lead is finalized)
         const token = `${lead.id}-${Date.now()}-${Math.random().toString(36).substring(7)}`
-        const expiresAt = new Date(Date.now() + 72 * 60 * 60 * 1000) // 72 hours
+        // Set a far future date for expires_at to maintain DB schema compatibility
+        const expiresAt = new Date()
+        expiresAt.setFullYear(expiresAt.getFullYear() + 100)
 
         // Insert new token
         const { error: tokenError } = await supabase.from("lead_access_tokens").insert({
@@ -89,7 +91,7 @@ export async function POST(request: Request) {
                 </a>
               </td></tr>
               <tr><td colspan="2" style="padding: 0 0 12px 0; font-size: 12px; color: #666;">
-                Ce lien est valide pendant 72 heures et ne peut être utilisé qu'une seule fois.
+                Ce lien reste valide jusqu'à ce que votre fiche soit complétée. Il ne peut être utilisé qu'une seule fois.
               </td></tr>
             </table>
             <p style="color: #666; font-size: 12px; margin-top: 20px;">Email envoyé depuis valeurmaisonrapide.com</p>
