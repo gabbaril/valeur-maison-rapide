@@ -430,6 +430,7 @@ export default function FinaliserPreview() {
                         placeholder="Ex. 450 000 $ ou « je ne sais pas »"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       />
+                      <p className="text-xs text-gray-400 mt-1">Cette information est facultative.</p>
                     </div>
 
                     {/* Champs cachés */}
