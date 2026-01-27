@@ -106,10 +106,33 @@ export default function FinaliserPreview() {
     alert("Mode aperçu: Les données ne sont pas enregistrées.\n\nDonnées du formulaire:\n" + JSON.stringify(formData, null, 2))
   }
 
+  const [validationErrors, setValidationErrors] = useState<string[]>([])
+
+  const validateStep1 = (): boolean => {
+    const errors: string[] = []
+    
+    // Champs obligatoires de l'étape 1
+    if (!formData.bedrooms_count) errors.push("Nombre de chambres")
+    if (!formData.bathrooms_count) errors.push("Nombre de salles de bain")
+    if (!formData.construction_year) errors.push("Année de construction")
+    if (!formData.floors_count) errors.push("Nombre d'étages")
+    if (!formData.basement_info) errors.push("Informations sur le sous-sol")
+    if (!formData.garage) errors.push("Garage / Stationnement")
+    
+    setValidationErrors(errors)
+    return errors.length === 0
+  }
+
   const handleContinueClick = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    goToNextStep()
+    
+    if (validateStep1()) {
+      setValidationErrors([])
+      goToNextStep()
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    }
   }
 
   const handleBackClick = (e: React.MouseEvent) => {
@@ -185,6 +208,18 @@ export default function FinaliserPreview() {
 
           {currentStep === 1 && (
             <div>
+              {validationErrors.length > 0 && (
+                <div className="mb-6 bg-red-50 border border-red-300 rounded-lg p-4">
+                  <p className="text-sm font-semibold text-red-800 mb-2">
+                    Veuillez compléter les champs suivants pour continuer :
+                  </p>
+                  <ul className="list-disc list-inside text-sm text-red-700">
+                    {validationErrors.map((err, idx) => (
+                      <li key={idx}>{err}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               <div className="border-t-4 border-red-600 bg-white p-6 rounded-lg shadow-sm">
                 <h2 className="text-xl font-bold text-white bg-red-600 -mx-6 -mt-6 px-6 py-3 mb-6 rounded-t-lg">
                   Informations sur la propriété
@@ -196,25 +231,27 @@ export default function FinaliserPreview() {
                     <h3 className="font-semibold text-gray-900 mb-4">Nombre de pièces</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Chambres</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Chambres <span className="text-red-600">*</span></label>
                         <input
                           type="number"
                           value={formData.bedrooms_count}
                           onChange={(e) => handleChange("bedrooms_count", e.target.value)}
                           placeholder="Ex.: 3"
                           min="0"
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                          required
+                          className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent ${validationErrors.includes("Nombre de chambres") ? "border-red-500 bg-red-50" : "border-gray-300"}`}
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Salles de bain</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Salles de bain <span className="text-red-600">*</span></label>
                         <input
                           type="number"
                           value={formData.bathrooms_count}
                           onChange={(e) => handleChange("bathrooms_count", e.target.value)}
                           placeholder="Ex.: 2"
                           min="0"
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                          required
+                          className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent ${validationErrors.includes("Nombre de salles de bain") ? "border-red-500 bg-red-50" : "border-gray-300"}`}
                         />
                       </div>
                       <div>
@@ -234,21 +271,23 @@ export default function FinaliserPreview() {
                   {/* Caractéristiques du bâtiment */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-900 mb-2">Année de construction</label>
+                      <label className="block text-sm font-semibold text-gray-900 mb-2">Année de construction <span className="text-red-600">*</span></label>
                       <input
                         type="text"
                         value={formData.construction_year}
                         onChange={(e) => handleChange("construction_year", e.target.value)}
                         placeholder="Ex.: 1974 ou 'Je ne sais pas'"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                        required
+                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent ${validationErrors.includes("Année de construction") ? "border-red-500 bg-red-50" : "border-gray-300"}`}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-900 mb-2">Nombre d'étages</label>
+                      <label className="block text-sm font-semibold text-gray-900 mb-2">Nombre d'étages <span className="text-red-600">*</span></label>
                       <select
                         value={formData.floors_count}
                         onChange={(e) => handleChange("floors_count", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                        required
+                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent ${validationErrors.includes("Nombre d'étages") ? "border-red-500 bg-red-50" : "border-gray-300"}`}
                       >
                         <option value="">Sélectionner...</option>
                         <option value="1">1 étage</option>
@@ -262,12 +301,13 @@ export default function FinaliserPreview() {
                   {/* Sous-sol */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-900 mb-2">
-                      Informations sur le sous-sol
+                      Informations sur le sous-sol <span className="text-red-600">*</span>
                     </label>
                     <select
                       value={formData.basement_info}
                       onChange={(e) => handleChange("basement_info", e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                      required
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent ${validationErrors.includes("Informations sur le sous-sol") ? "border-red-500 bg-red-50" : "border-gray-300"}`}
                     >
                       <option value="">Sélectionner...</option>
                       <option value="Sous-sol complet">Sous-sol complet</option>
@@ -280,11 +320,12 @@ export default function FinaliserPreview() {
 
                   {/* Stationnement */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">Garage / Stationnement</label>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">Garage / Stationnement <span className="text-red-600">*</span></label>
                     <select
                       value={formData.garage}
                       onChange={(e) => handleChange("garage", e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                      required
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent ${validationErrors.includes("Garage / Stationnement") ? "border-red-500 bg-red-50" : "border-gray-300"}`}
                     >
                       <option value="">Sélectionner...</option>
                       <option value="Garage attaché">Garage attaché</option>
