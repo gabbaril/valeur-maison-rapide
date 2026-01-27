@@ -519,14 +519,14 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
               <div className="space-y-6">
                 <div className="border-t-4 border-red-600 bg-white p-6 rounded-lg shadow-sm">
                   <h2 className="text-xl font-bold text-white bg-red-600 -mx-6 -mt-6 px-6 py-3 mb-6 rounded-t-lg">
-                    Objectif de l'évaluation
+                    Contexte de votre demande
                   </h2>
 
                   <div className="space-y-6">
                     {/* Raison de l'évaluation */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Pour quelle raison désirez-vous obtenir la valeur de votre propriété ?
+                        Quelle est la raison principale de la vente ?
                       </label>
                       <textarea
                         value={formData.sale_reason}
