@@ -41,6 +41,12 @@ export async function POST(request: Request) {
       need_buying_help,
       buying_sector,
       buying_budget,
+      // FILTRAGE VENDEUR (CRM)
+      niveau_intention,
+      ouverture_courtier,
+      horizon_vente,
+      souhaite_contact,
+      consent_courtier,
     } = body
 
     if (!token) {
@@ -313,6 +319,12 @@ export async function POST(request: Request) {
                 : null,
         buying_sector: buying_sector || null,
         buying_budget: buying_budget || null,
+        // FILTRAGE VENDEUR (CRM)
+        niveau_intention: niveau_intention || null,
+        ouverture_courtier: ouverture_courtier || null,
+        horizon_vente: horizon_vente || null,
+        souhaite_contact: souhaite_contact || null,
+        consent_courtier: consent_courtier === true ? true : consent_courtier === false ? false : null,
       })
       .eq("id", tokenData.lead_id)
 
@@ -403,6 +415,15 @@ export async function POST(request: Request) {
             ${contact_weekday ? `<tr><td style="padding: 4px 0; font-weight: bold;">Semaine:</td><td>${contact_weekday}</td></tr>` : ""}
             ${contact_weekend ? `<tr><td style="padding: 4px 0; font-weight: bold;">Fin de semaine:</td><td>${contact_weekend}</td></tr>` : ""}
             ${contact_notes ? `<tr><td style="padding: 4px 0; font-weight: bold;">Notes:</td><td>${contact_notes}</td></tr>` : ""}
+          </table>
+
+          <h3 style="color: #dc2626;">🎯 FILTRAGE VENDEUR (CRM)</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
+            ${niveau_intention ? `<tr><td style="padding: 4px 0; font-weight: bold;">Niveau d'intention:</td><td>${niveau_intention}</td></tr>` : ""}
+            ${ouverture_courtier ? `<tr><td style="padding: 4px 0; font-weight: bold;">Ouverture courtier:</td><td>${ouverture_courtier}</td></tr>` : ""}
+            ${horizon_vente ? `<tr><td style="padding: 4px 0; font-weight: bold;">Horizon de vente:</td><td>${horizon_vente}</td></tr>` : ""}
+            ${souhaite_contact ? `<tr><td style="padding: 4px 0; font-weight: bold;">Souhaite être contacté:</td><td>${souhaite_contact}</td></tr>` : ""}
+            <tr><td style="padding: 4px 0; font-weight: bold;">Consentement courtier:</td><td>${consent_courtier ? "✅ Oui" : "❌ Non"}</td></tr>
           </table>
 
           ${

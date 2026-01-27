@@ -32,6 +32,13 @@ interface LeadFormData {
   sector: string
   ideal_sale_deadline: string
   approximate_market_value: string
+
+  // FILTRAGE VENDEUR (CRM)
+  niveau_intention: string
+  ouverture_courtier: string
+  horizon_vente: string
+  souhaite_contact: string
+  consent_courtier: boolean
 }
 
 // Helper function to determine if property type is an income property
@@ -92,6 +99,12 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
     sector: "",
     ideal_sale_deadline: "",
     approximate_market_value: "",
+    // FILTRAGE VENDEUR (CRM)
+    niveau_intention: "",
+    ouverture_courtier: "",
+    horizon_vente: "",
+    souhaite_contact: "",
+    consent_courtier: false,
   })
 
   useEffect(() => {
@@ -599,6 +612,102 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                     <input type="hidden" value={formData.contact_person} />
                     <input type="hidden" value={formData.property_to_sell_type} />
                     <input type="hidden" value={formData.sector} />
+                  </div>
+                </div>
+
+                {/* FILTRAGE VENDEUR (CRM) */}
+                <div className="border-t-4 border-red-600 bg-white p-6 rounded-lg shadow-sm">
+                  <h2 className="text-xl font-bold text-white bg-red-600 -mx-6 -mt-6 px-6 py-3 mb-6 rounded-t-lg">
+                    Vos préférences de contact
+                  </h2>
+
+                  <div className="space-y-6">
+                    {/* Niveau d'intention de vente */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-900 mb-2">
+                        Comment décririez-vous votre niveau d'intention de vendre ?
+                      </label>
+                      <select
+                        value={formData.niveau_intention}
+                        onChange={(e) => handleChange("niveau_intention", e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                      >
+                        <option value="">Sélectionner...</option>
+                        <option value="Très motivé">Très motivé - Je veux vendre rapidement</option>
+                        <option value="Moyennement motivé">Moyennement motivé - Je considère mes options</option>
+                        <option value="Juste curieux">Juste curieux - Je veux connaître la valeur</option>
+                        <option value="Non déterminé">Non déterminé</option>
+                      </select>
+                    </div>
+
+                    {/* Ouverture à travailler avec un courtier */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-900 mb-2">
+                        Seriez-vous ouvert(e) à travailler avec un courtier immobilier ?
+                      </label>
+                      <select
+                        value={formData.ouverture_courtier}
+                        onChange={(e) => handleChange("ouverture_courtier", e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                      >
+                        <option value="">Sélectionner...</option>
+                        <option value="Oui clairement">Oui, clairement</option>
+                        <option value="Peut-être">Peut-être, selon les circonstances</option>
+                        <option value="Non / déjà engagé">Non / J'ai déjà un courtier</option>
+                        <option value="Non mentionné">Je préfère ne pas répondre</option>
+                      </select>
+                    </div>
+
+                    {/* Horizon de vente */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-900 mb-2">
+                        Dans quel délai envisageriez-vous de vendre ?
+                      </label>
+                      <select
+                        value={formData.horizon_vente}
+                        onChange={(e) => handleChange("horizon_vente", e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                      >
+                        <option value="">Sélectionner...</option>
+                        <option value="< 3 mois">Moins de 3 mois</option>
+                        <option value="3-6 mois">Entre 3 et 6 mois</option>
+                        <option value="6-12 mois">Entre 6 et 12 mois</option>
+                        <option value="> 12 mois">Plus de 12 mois</option>
+                        <option value="Inconnu">Je ne sais pas encore</option>
+                      </select>
+                    </div>
+
+                    {/* Souhaite être contacté */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-900 mb-2">
+                        Souhaitez-vous être contacté(e) par un courtier ?
+                      </label>
+                      <select
+                        value={formData.souhaite_contact}
+                        onChange={(e) => handleChange("souhaite_contact", e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                      >
+                        <option value="">Sélectionner...</option>
+                        <option value="Oui">Oui, je souhaite être contacté(e)</option>
+                        <option value="Non">Non, pas pour le moment</option>
+                        <option value="À recontacter plus tard">À recontacter plus tard</option>
+                      </select>
+                    </div>
+
+                    {/* Consentement courtier */}
+                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                      <label className="flex items-start gap-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={formData.consent_courtier}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, consent_courtier: e.target.checked }))}
+                          className="mt-1 h-5 w-5 rounded border-gray-300 text-red-600 focus:ring-red-600"
+                        />
+                        <span className="text-sm text-gray-700">
+                          J'accepte que mes coordonnées soient transmises à un courtier immobilier partenaire de mon secteur pour me contacter et m'accompagner dans mon projet de vente.
+                        </span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
