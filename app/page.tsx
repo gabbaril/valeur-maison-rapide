@@ -19,6 +19,7 @@ export default function RealEstateLanding() {
     address: "",
     propertyType: "",
     intention: "",
+    consent_contact: false
   })
   const [trackingData, setTrackingData] = useState({
     utm_source: "",
@@ -113,6 +114,7 @@ export default function RealEstateLanding() {
       address: formData.address,
       propertyType: formData.propertyType,
       intention: formData.intention,
+      consent_contact: formData.consent_contact,
       utm_source: trackingData.utm_source,
       utm_medium: trackingData.utm_medium,
       utm_campaign: trackingData.utm_campaign,
@@ -479,6 +481,22 @@ export default function RealEstateLanding() {
                             </p>
                           </div>
 
+                          {/* Consentement */}
+                          <div className="p-4 border-gray-200">
+                            <label className="flex items-start gap-3 cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={formData.consent_contact}
+                                onChange={(e) => setFormData((prev) => ({ ...prev, consent_contact: e.target.checked }))}
+                                className="mt-1 h-5 w-5 rounded border-gray-300 text-red-600 focus:ring-red-600"
+                                required
+                              />
+                              <span className="text-sm text-gray-700">
+                                J'accepte que ValeurMaisonRapide ou un expert local me contacte afin de donner suite à ma demande d’évaluation.
+                              </span>
+                            </label>
+                          </div>
+
                           <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
                             <Button
                               type="button"
@@ -498,8 +516,7 @@ export default function RealEstateLanding() {
                           </div>
 
                           <p className="text-xs text-muted-foreground text-center mt-2 sm:mt-3 leading-relaxed">
-                            Un professionnel local pourrait vous contacter pour valider certains détails et affiner
-                            l'évaluation. Vos informations demeurent confidentielles.
+                            Vos informations demeurent confidentielles.
                           </p>
                         </form>
                       )}

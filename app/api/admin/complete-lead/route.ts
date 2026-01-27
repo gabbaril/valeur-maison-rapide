@@ -42,9 +42,7 @@ export async function POST(request: Request) {
       buying_sector,
       buying_budget,
       // FILTRAGE VENDEUR (CRM)
-      ouverture_courtier,
-      horizon_vente,
-      consent_courtier,
+      open_to_broker,
     } = body
 
     if (!token) {
@@ -318,9 +316,7 @@ export async function POST(request: Request) {
         buying_sector: buying_sector || null,
         buying_budget: buying_budget || null,
         // FILTRAGE VENDEUR (CRM)
-        ouverture_courtier: ouverture_courtier || null,
-        horizon_vente: horizon_vente || null,
-        consent_courtier: consent_courtier === true ? true : consent_courtier === false ? false : null,
+        open_to_broker: open_to_broker || null,
       })
       .eq("id", tokenData.lead_id)
 
@@ -415,9 +411,7 @@ export async function POST(request: Request) {
 
           <h3 style="color: #dc2626;">🎯 FILTRAGE VENDEUR (CRM)</h3>
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
-            ${ouverture_courtier ? `<tr><td style="padding: 4px 0; font-weight: bold;">Ouverture courtier:</td><td>${ouverture_courtier}</td></tr>` : ""}
-            ${horizon_vente ? `<tr><td style="padding: 4px 0; font-weight: bold;">Horizon de vente:</td><td>${horizon_vente}</td></tr>` : ""}
-            <tr><td style="padding: 4px 0; font-weight: bold;">Consentement courtier:</td><td>${consent_courtier ? "✅ Oui" : "❌ Non"}</td></tr>
+            ${open_to_broker ? `<tr><td style="padding: 4px 0; font-weight: bold;">Ouverture courtier:</td><td>${open_to_broker}</td></tr>` : ""}
           </table>
 
           ${

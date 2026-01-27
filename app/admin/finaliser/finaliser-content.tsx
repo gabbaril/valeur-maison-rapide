@@ -34,9 +34,7 @@ interface LeadFormData {
   approximate_market_value: string
 
   // FILTRAGE VENDEUR (CRM)
-  ouverture_courtier: string
-  horizon_vente: string
-  consent_courtier: boolean
+  open_to_broker: string
 }
 
 // Helper function to determine if property type is an income property
@@ -98,9 +96,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
     ideal_sale_deadline: "",
     approximate_market_value: "",
     // FILTRAGE VENDEUR (CRM)
-    ouverture_courtier: "",
-    horizon_vente: "",
-    consent_courtier: false,
+    open_to_broker: "",
   })
 
   useEffect(() => {
@@ -659,8 +655,8 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                         Si un accompagnement professionnel s'avérait pertinent, seriez-vous ouvert(e) à échanger avec un courtier immobilier ?
                       </label>
                       <select
-                        value={formData.ouverture_courtier}
-                        onChange={(e) => handleChange("ouverture_courtier", e.target.value)}
+                        value={formData.open_to_broker}
+                        onChange={(e) => handleChange("open_to_broker", e.target.value)}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       >
                         <option value="">Sélectionner...</option>
@@ -668,24 +664,6 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                         <option value="Peut-être">Peut-être</option>
                         <option value="Non">Non</option>
                       </select>
-                    </div>
-
-                    {/* Horizon de vente - champ caché, reprend la valeur de ideal_sale_deadline */}
-                    <input type="hidden" value={formData.horizon_vente || formData.ideal_sale_deadline} />
-
-                    {/* Consentement courtier */}
-                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                      <label className="flex items-start gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={formData.consent_courtier}
-                          onChange={(e) => setFormData((prev) => ({ ...prev, consent_courtier: e.target.checked }))}
-                          className="mt-1 h-5 w-5 rounded border-gray-300 text-red-600 focus:ring-red-600"
-                        />
-                        <span className="text-sm text-gray-700">
-                          En cochant cette case, j'accepte que ValeurMaisonRapide ou un expert local puisse me contacter afin de donner suite à ma demande d’évaluation.
-                        </span>
-                      </label>
                     </div>
                   </div>
                 </div>
