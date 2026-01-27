@@ -41,6 +41,8 @@ export async function POST(request: Request) {
       need_buying_help,
       buying_sector,
       buying_budget,
+      // FILTRAGE VENDEUR (CRM)
+      open_to_broker,
     } = body
 
     if (!token) {
@@ -313,6 +315,8 @@ export async function POST(request: Request) {
                 : null,
         buying_sector: buying_sector || null,
         buying_budget: buying_budget || null,
+        // FILTRAGE VENDEUR (CRM)
+        open_to_broker: open_to_broker || null,
       })
       .eq("id", tokenData.lead_id)
 
@@ -403,6 +407,11 @@ export async function POST(request: Request) {
             ${contact_weekday ? `<tr><td style="padding: 4px 0; font-weight: bold;">Semaine:</td><td>${contact_weekday}</td></tr>` : ""}
             ${contact_weekend ? `<tr><td style="padding: 4px 0; font-weight: bold;">Fin de semaine:</td><td>${contact_weekend}</td></tr>` : ""}
             ${contact_notes ? `<tr><td style="padding: 4px 0; font-weight: bold;">Notes:</td><td>${contact_notes}</td></tr>` : ""}
+          </table>
+
+          <h3 style="color: #dc2626;">🎯 FILTRAGE VENDEUR (CRM)</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
+            ${open_to_broker ? `<tr><td style="padding: 4px 0; font-weight: bold;">Ouverture courtier:</td><td>${open_to_broker}</td></tr>` : ""}
           </table>
 
           ${
