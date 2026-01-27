@@ -445,14 +445,17 @@ export default function FinaliserPreview() {
                 {/* FILTRAGE VENDEUR (CRM) */}
                 <div className="border-t-4 border-red-600 bg-white p-6 rounded-lg shadow-sm">
                   <h2 className="text-xl font-bold text-white bg-red-600 -mx-6 -mt-6 px-6 py-3 mb-6 rounded-t-lg">
-                    Vos préférences de contact
+                    Suite possible à votre demande
                   </h2>
+                  <p className="text-sm text-gray-500 mb-6">
+                    Ces questions nous permettent de déterminer si un accompagnement professionnel pourrait être pertinent dans votre situation. Vous pouvez y répondre librement, sans obligation.
+                  </p>
 
                   <div className="space-y-6">
-                    {/* Niveau d'intention de vente */}
+                    {/* Niveau d'intention */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Comment décririez-vous votre niveau d'intention de vendre ?
+                        Où en êtes-vous actuellement dans votre réflexion immobilière ?
                       </label>
                       <select
                         value={formData.niveau_intention}
@@ -460,17 +463,18 @@ export default function FinaliserPreview() {
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       >
                         <option value="">Sélectionner...</option>
-                        <option value="Très motivé">Très motivé - Je veux vendre rapidement</option>
-                        <option value="Moyennement motivé">Moyennement motivé - Je considère mes options</option>
-                        <option value="Juste curieux">Juste curieux - Je veux connaître la valeur</option>
-                        <option value="Non déterminé">Non déterminé</option>
+                        <option value="Simple réflexion">Simple réflexion / information</option>
+                        <option value="Réflexion sérieuse">Réflexion sérieuse</option>
+                        <option value="Projet moyen terme">Projet envisagé à moyen terme</option>
+                        <option value="Projet court terme">Projet à court terme</option>
+                        <option value="Je ne sais pas encore">Je ne sais pas encore</option>
                       </select>
                     </div>
 
                     {/* Ouverture à travailler avec un courtier */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Si vous décidez de vendre, seriez-vous ouvert(e) à être accompagné(e) par un courtier immobilier ?
+                        Si un accompagnement professionnel s'avérait pertinent, seriez-vous ouvert(e) à échanger avec un courtier immobilier ?
                       </label>
                       <select
                         value={formData.ouverture_courtier}
@@ -478,36 +482,19 @@ export default function FinaliserPreview() {
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       >
                         <option value="">Sélectionner...</option>
-                        <option value="Oui clairement">Oui, clairement</option>
-                        <option value="Peut-être">Peut-être, selon les circonstances</option>
-                        <option value="Non / déjà engagé">Non / J'ai déjà un courtier</option>
-                        <option value="Non mentionné">Je préfère ne pas répondre</option>
+                        <option value="Oui">Oui</option>
+                        <option value="Peut-être">Peut-être</option>
+                        <option value="Non">Non</option>
                       </select>
                     </div>
 
-                    {/* Horizon de vente */}
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Dans quel délai envisageriez-vous de vendre ?
-                      </label>
-                      <select
-                        value={formData.horizon_vente}
-                        onChange={(e) => handleChange("horizon_vente", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
-                      >
-                        <option value="">Sélectionner...</option>
-                        <option value="< 3 mois">Moins de 3 mois</option>
-                        <option value="3-6 mois">Entre 3 et 6 mois</option>
-                        <option value="6-12 mois">Entre 6 et 12 mois</option>
-                        <option value="> 12 mois">Plus de 12 mois</option>
-                        <option value="Inconnu">Je ne sais pas encore</option>
-                      </select>
-                    </div>
+                    {/* Horizon de vente - champ caché, reprend la valeur de ideal_sale_deadline */}
+                    <input type="hidden" value={formData.horizon_vente || formData.ideal_sale_deadline} />
 
                     {/* Souhaite être contacté */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Souhaitez-vous être contacté(e) par un courtier ?
+                        Seriez-vous ouvert(e) à être contacté(e) afin de discuter de vos options, si pertinent ?
                       </label>
                       <select
                         value={formData.souhaite_contact}
@@ -515,9 +502,8 @@ export default function FinaliserPreview() {
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       >
                         <option value="">Sélectionner...</option>
-                        <option value="Oui">Oui, je souhaite être contacté(e)</option>
-                        <option value="Non">Non, pas pour le moment</option>
-                        <option value="À recontacter plus tard">À recontacter plus tard</option>
+                        <option value="Oui">Oui</option>
+                        <option value="Pas pour le moment">Pas pour le moment</option>
                       </select>
                     </div>
 
@@ -531,7 +517,7 @@ export default function FinaliserPreview() {
                           className="mt-1 h-5 w-5 rounded border-gray-300 text-red-600 focus:ring-red-600"
                         />
                         <span className="text-sm text-gray-700">
-                          J'accepte que mes coordonnées soient transmises à un courtier immobilier partenaire de mon secteur pour me contacter et m'accompagner dans mon projet de vente.
+                          Je comprends qu'un courtier immobilier pourrait me contacter afin de discuter de ma situation, si applicable.
                         </span>
                       </label>
                     </div>
@@ -552,7 +538,7 @@ export default function FinaliserPreview() {
                   type="submit"
                   className="bg-red-600 hover:bg-red-700 text-white px-8"
                 >
-                  Soumettre ma fiche
+                  Finaliser ma demande
                 </Button>
               </div>
             </form>
