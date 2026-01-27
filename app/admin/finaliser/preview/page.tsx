@@ -525,21 +525,24 @@ export default function FinaliserPreview() {
                 </div>
               </div>
 
-              <div className="flex justify-between items-center pt-6 border-t mt-6">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleBackClick}
-                  className="px-8"
-                >
-                  Retour
-                </Button>
-                <Button
-                  type="submit"
-                  className="bg-red-600 hover:bg-red-700 text-white px-8"
-                >
-                  Finaliser ma demande
-                </Button>
+              <div className="flex flex-col items-end pt-6 border-t mt-6">
+                <div className="flex justify-between items-center w-full">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleBackClick}
+                    className="px-8"
+                  >
+                    Retour
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="bg-red-600 hover:bg-red-700 text-white px-8"
+                  >
+                    Soumettre
+                  </Button>
+                </div>
+                <p className="text-xs text-gray-400 mt-2">Aucune obligation. Vous pourrez décider de la suite.</p>
               </div>
             </form>
           )}
