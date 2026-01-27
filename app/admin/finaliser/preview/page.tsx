@@ -131,7 +131,7 @@ export default function FinaliserPreview() {
         <Card className="p-6 md:p-8">
           <div className="mb-6">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-              Finaliser votre fiche d'évaluation immobilière
+              Finaliser l'analyse de votre projet immobilier
             </h1>
             <p className="text-sm text-gray-500 mb-2">Référence de dossier : {mockLead.lead_number}</p>
 
