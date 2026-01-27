@@ -379,7 +379,7 @@ export default function FinaliserPreview() {
                     {/* Raison de vente */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Raison principale de la vente
+                        Quelle est la raison principale de la vente ?
                       </label>
                       <select
                         value={formData.sale_reason}
