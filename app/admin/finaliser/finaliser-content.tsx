@@ -703,7 +703,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                     disabled={submitting}
                     className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {submitting ? "Envoi en cours..." : "Soumettre"}
+                    {submitting ? "Envoi en cours..." : "Finaliser ma demande"}
                   </Button>
                 </div>
                 <p className="text-xs text-gray-400 mt-2">Aucune obligation. Vous pourrez décider de la suite.</p>
