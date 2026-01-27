@@ -32,10 +32,8 @@ interface LeadFormData {
   approximate_market_value: string
 
   // FILTRAGE VENDEUR (CRM)
-  niveau_intention: string
   ouverture_courtier: string
   horizon_vente: string
-  souhaite_contact: string
   consent_courtier: boolean
 }
 
@@ -76,10 +74,8 @@ export default function FinaliserPreview() {
     ideal_sale_deadline: "",
     approximate_market_value: "",
     // FILTRAGE VENDEUR (CRM)
-    niveau_intention: "",
     ouverture_courtier: "",
     horizon_vente: "",
-    souhaite_contact: "",
     consent_courtier: false,
   })
 
@@ -493,24 +489,6 @@ export default function FinaliserPreview() {
                   </p>
 
                   <div className="space-y-6">
-                    {/* Niveau d'intention */}
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Où en êtes-vous actuellement dans votre réflexion immobilière ?
-                      </label>
-                      <select
-                        value={formData.niveau_intention}
-                        onChange={(e) => handleChange("niveau_intention", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
-                      >
-                        <option value="">Sélectionner...</option>
-                        <option value="Simple réflexion">Simple réflexion / information</option>
-                        <option value="Réflexion sérieuse">Réflexion sérieuse</option>
-                        <option value="Projet moyen terme">Projet envisagé à moyen terme</option>
-                        <option value="Projet court terme">Projet à court terme</option>
-                        <option value="Je ne sais pas encore">Je ne sais pas encore</option>
-                      </select>
-                    </div>
 
                     {/* Ouverture à travailler avec un courtier */}
                     <div>
@@ -532,22 +510,6 @@ export default function FinaliserPreview() {
                     {/* Horizon de vente - champ caché, reprend la valeur de ideal_sale_deadline */}
                     <input type="hidden" value={formData.horizon_vente || formData.ideal_sale_deadline} />
 
-                    {/* Souhaite être contacté */}
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Seriez-vous ouvert(e) à être contacté(e) afin de discuter de vos options, si pertinent ?
-                      </label>
-                      <select
-                        value={formData.souhaite_contact}
-                        onChange={(e) => handleChange("souhaite_contact", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
-                      >
-                        <option value="">Sélectionner...</option>
-                        <option value="Oui">Oui</option>
-                        <option value="Pas pour le moment">Pas pour le moment</option>
-                      </select>
-                    </div>
-
                     {/* Consentement courtier */}
                     <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                       <label className="flex items-start gap-3 cursor-pointer">
@@ -558,7 +520,7 @@ export default function FinaliserPreview() {
                           className="mt-1 h-5 w-5 rounded border-gray-300 text-red-600 focus:ring-red-600"
                         />
                         <span className="text-sm text-gray-700">
-                          Je comprends qu'un courtier immobilier pourrait me contacter afin de discuter de ma situation, si applicable.
+                          En cochant cette case, j'accepte que ValeurMaisonRapide ou un expert local puisse me contacter afin de donner suite à ma demande d’évaluation.
                         </span>
                       </label>
                     </div>
