@@ -470,7 +470,7 @@ export default function FinaliserPreview() {
                     {/* Ouverture à travailler avec un courtier */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Seriez-vous ouvert(e) à travailler avec un courtier immobilier ?
+                        Si vous décidez de vendre, seriez-vous ouvert(e) à être accompagné(e) par un courtier immobilier ?
                       </label>
                       <select
                         value={formData.ouverture_courtier}
