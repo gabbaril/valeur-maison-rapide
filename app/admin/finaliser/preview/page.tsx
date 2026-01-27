@@ -539,7 +539,7 @@ export default function FinaliserPreview() {
                     type="submit"
                     className="bg-red-600 hover:bg-red-700 text-white px-8"
                   >
-                    Soumettre
+                    Finaliser ma demande
                   </Button>
                 </div>
                 <p className="text-xs text-gray-400 mt-2">Aucune obligation. Vous pourrez décider de la suite.</p>
