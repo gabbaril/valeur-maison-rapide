@@ -183,10 +183,7 @@ export default function IncomePropertyEvaluationForm({
 
           <div className="mb-6 bg-red-50 border border-red-600 rounded-lg p-4">
             <p className="text-sm text-gray-700 leading-relaxed">
-              <span className="inline-block mr-1">&#9201;</span>
-              <span className="font-medium">Les demandes avec fiche complétée sont traitées plus rapidement.</span>
-              <br />
-              Ces informations nous permettent d'affiner votre estimation et de vous fournir une valeur plus précise.
+              Ces informations nous permettent de mieux comprendre votre propriété et votre projet immobilier, afin de déterminer les options les plus pertinentes dans votre situation.
             </p>
           </div>
 
