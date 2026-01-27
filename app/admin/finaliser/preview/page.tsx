@@ -374,12 +374,15 @@ export default function FinaliserPreview() {
                   <h2 className="text-xl font-bold text-white bg-red-600 -mx-6 -mt-6 px-6 py-3 mb-6 rounded-t-lg">
                     Contexte de votre demande
                   </h2>
+                  <p className="text-sm text-gray-500 mb-6">
+                    Ces informations nous aident à interpréter correctement votre demande et à éviter des estimations trop générales.
+                  </p>
 
                   <div className="space-y-6">
-                    {/* Raison de vente */}
+                    {/* Raison de la demande */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Quelle est la raison principale de la vente ?
+                        Quelle est la raison principale de votre demande ?
                       </label>
                       <select
                         value={formData.sale_reason}
@@ -387,22 +390,19 @@ export default function FinaliserPreview() {
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       >
                         <option value="">Sélectionner...</option>
-                        <option value="Déménagement">Déménagement</option>
-                        <option value="Agrandissement famille">Agrandissement de la famille</option>
-                        <option value="Réduction taille">Réduction de la taille du logement</option>
-                        <option value="Retraite">Retraite</option>
-                        <option value="Divorce/Séparation">Divorce / Séparation</option>
-                        <option value="Succession">Succession</option>
-                        <option value="Investissement">Investissement / Rentabilité</option>
+                        <option value="Réflexion sur un changement résidentiel">Réflexion sur un changement résidentiel</option>
+                        <option value="Achat éventuel d'une autre propriété">Achat éventuel d'une autre propriété</option>
+                        <option value="Succession / contexte familial">Succession / contexte familial</option>
+                        <option value="Projet à moyen terme">Projet à moyen terme</option>
+                        <option value="Simple mise à jour de valeur">Simple mise à jour de valeur</option>
                         <option value="Autre">Autre</option>
-                        <option value="Préfère ne pas dire">Je préfère ne pas dire</option>
                       </select>
                     </div>
 
-                    {/* Délai souhaité */}
+                    {/* Horizon de temps */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Délai idéal pour vendre
+                        Horizon envisagé pour votre projet immobilier
                       </label>
                       <select
                         value={formData.ideal_sale_deadline}
@@ -410,25 +410,24 @@ export default function FinaliserPreview() {
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       >
                         <option value="">Sélectionner...</option>
-                        <option value="Le plus tôt possible">Le plus tôt possible</option>
-                        <option value="1-3 mois">Dans 1 à 3 mois</option>
-                        <option value="3-6 mois">Dans 3 à 6 mois</option>
-                        <option value="6-12 mois">Dans 6 à 12 mois</option>
-                        <option value="Plus d'un an">Plus d'un an</option>
-                        <option value="Je ne suis pas pressé">Je ne suis pas pressé</option>
+                        <option value="0-3 mois">0-3 mois</option>
+                        <option value="3-6 mois">3-6 mois</option>
+                        <option value="6-12 mois">6-12 mois</option>
+                        <option value="Plus de 12 mois">Plus de 12 mois</option>
+                        <option value="Je ne sais pas encore">Je ne sais pas encore</option>
                       </select>
                     </div>
 
                     {/* Valeur estimée */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Valeur approximative espérée
+                        Valeur que vous aviez en tête (si applicable)
                       </label>
                       <input
                         type="text"
                         value={formData.approximate_market_value}
                         onChange={(e) => handleChange("approximate_market_value", e.target.value)}
-                        placeholder="Ex: 450 000 $ ou 'Je ne sais pas'"
+                        placeholder="Ex. 450 000 $ ou « je ne sais pas »"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       />
                     </div>

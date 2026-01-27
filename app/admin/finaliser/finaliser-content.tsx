@@ -521,43 +521,35 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                   <h2 className="text-xl font-bold text-white bg-red-600 -mx-6 -mt-6 px-6 py-3 mb-6 rounded-t-lg">
                     Contexte de votre demande
                   </h2>
+                  <p className="text-sm text-gray-500 mb-6">
+                    Ces informations nous aident à interpréter correctement votre demande et à éviter des estimations trop générales.
+                  </p>
 
                   <div className="space-y-6">
-                    {/* Raison de l'évaluation */}
+                    {/* Raison de la demande */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Quelle est la raison principale de la vente ?
-                      </label>
-                      <textarea
-                        value={formData.sale_reason}
-                        onChange={(e) => handleChange("sale_reason", e.target.value)}
-                        rows={3}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
-                      />
-                    </div>
-
-                    {/* Intention de vente */}
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Envisagez-vous de vendre votre propriété ?
+                        Quelle est la raison principale de votre demande ?
                       </label>
                       <select
-                        value={formData.potential_sale_desire}
-                        onChange={(e) => handleChange("potential_sale_desire", e.target.value)}
+                        value={formData.sale_reason}
+                        onChange={(e) => handleChange("sale_reason", e.target.value)}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       >
                         <option value="">Sélectionner...</option>
-                        <option value="Oui, certainement">Oui, certainement</option>
-                        <option value="Possiblement">Possiblement</option>
-                        <option value="Non, simple curiosité">Non, simple curiosité</option>
-                        <option value="Je ne sais pas encore">Je ne sais pas encore</option>
+                        <option value="Réflexion sur un changement résidentiel">Réflexion sur un changement résidentiel</option>
+                        <option value="Achat éventuel d'une autre propriété">Achat éventuel d'une autre propriété</option>
+                        <option value="Succession / contexte familial">Succession / contexte familial</option>
+                        <option value="Projet à moyen terme">Projet à moyen terme</option>
+                        <option value="Simple mise à jour de valeur">Simple mise à jour de valeur</option>
+                        <option value="Autre">Autre</option>
                       </select>
                     </div>
 
                     {/* Horizon de temps */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Si vous vendiez, quel serait le moment idéal ?
+                        Horizon envisagé pour votre projet immobilier
                       </label>
                       <select
                         value={formData.ideal_sale_deadline}
@@ -565,23 +557,24 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       >
                         <option value="">Sélectionner...</option>
-                        <option value="Dans les 3 prochains mois">Dans les 3 prochains mois</option>
-                        <option value="D'ici 6 mois à 1 an">D'ici 6 mois à 1 an</option>
-                        <option value="Dans plus d'un an">Dans plus d'un an</option>
-                        <option value="Selon les opportunités">Selon les opportunités</option>
+                        <option value="0-3 mois">0-3 mois</option>
+                        <option value="3-6 mois">3-6 mois</option>
+                        <option value="6-12 mois">6-12 mois</option>
+                        <option value="Plus de 12 mois">Plus de 12 mois</option>
+                        <option value="Je ne sais pas encore">Je ne sais pas encore</option>
                       </select>
                     </div>
 
                     {/* Valeur estimée */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Quelle est selon vous la valeur approximative de votre propriété ?
+                        Valeur que vous aviez en tête (si applicable)
                       </label>
                       <input
                         type="text"
                         value={formData.approximate_market_value}
                         onChange={(e) => handleChange("approximate_market_value", e.target.value)}
-                        placeholder="Ex: 400 000 $"
+                        placeholder="Ex. 450 000 $ ou « je ne sais pas »"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       />
                     </div>
