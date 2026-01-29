@@ -179,155 +179,155 @@ export async function POST(request: Request) {
 
     console.log("[v0] Lead envoyé avec succès. Envoi de la confirmation à:", email)
 
-    if (email && email.includes("@")) {
-      try {
-        const leadGreeting = fullName ? `Bonjour ${fullName},` : "Bonjour,"
-        const websiteUrl = "https://www.valeurmaisonrapide.com"
+//     if (email && email.includes("@")) {
+//       try {
+//         const leadGreeting = fullName ? `Bonjour ${fullName},` : "Bonjour,"
+//         const websiteUrl = "https://www.valeurmaisonrapide.com"
 
-        const confirmationHtml = `<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="x-apple-disable-message-reformatting" />
-    <title>Nous avons bien reçu votre demande d'évaluation</title>
-  </head>
-  <body style="margin:0;padding:0;background:#f6f7fb;">
-    <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">
-      Nous avons bien reçu votre demande d'évaluation. Analyse en cours (24–48 h).
-    </div>
+//         const confirmationHtml = `<!doctype html>
+// <html lang="fr">
+//   <head>
+//     <meta charset="utf-8" />
+//     <meta name="viewport" content="width=device-width,initial-scale=1" />
+//     <meta name="x-apple-disable-message-reformatting" />
+//     <title>Nous avons bien reçu votre demande d'évaluation</title>
+//   </head>
+//   <body style="margin:0;padding:0;background:#f6f7fb;">
+//     <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">
+//       Nous avons bien reçu votre demande d'évaluation. Analyse en cours (24–48 h).
+//     </div>
 
-    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#f6f7fb;">
-      <tr>
-        <td align="center" style="padding:24px 12px;">
-          <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="width:600px;max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(16,24,40,0.08);">
-            <tr>
-              <td style="padding:20px 24px;border-bottom:1px solid #eef0f4;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                  <tr>
-                    <td align="left" style="vertical-align:middle;">
-                      <span style="font-family:Arial,Helvetica,sans-serif;font-size:20px;font-weight:800;color:#d6001c;">Valeur Maison Rapide</span>
-                    </td>
-                    <td align="right" style="vertical-align:middle;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#667085;">
-                      Confirmation de réception
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
+//     <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#f6f7fb;">
+//       <tr>
+//         <td align="center" style="padding:24px 12px;">
+//           <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="width:600px;max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(16,24,40,0.08);">
+//             <tr>
+//               <td style="padding:20px 24px;border-bottom:1px solid #eef0f4;">
+//                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+//                   <tr>
+//                     <td align="left" style="vertical-align:middle;">
+//                       <span style="font-family:Arial,Helvetica,sans-serif;font-size:20px;font-weight:800;color:#d6001c;">Valeur Maison Rapide</span>
+//                     </td>
+//                     <td align="right" style="vertical-align:middle;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#667085;">
+//                       Confirmation de réception
+//                     </td>
+//                   </tr>
+//                 </table>
+//               </td>
+//             </tr>
 
-            <tr>
-              <td style="padding:28px 24px 10px 24px;">
-                <div style="font-family:Arial,Helvetica,sans-serif;font-size:22px;line-height:1.25;font-weight:800;color:#101828;margin:0 0 10px;">
-                  ✅ Demande d'évaluation reçue
-                </div>
-              </td>
-            </tr>
+//             <tr>
+//               <td style="padding:28px 24px 10px 24px;">
+//                 <div style="font-family:Arial,Helvetica,sans-serif;font-size:22px;line-height:1.25;font-weight:800;color:#101828;margin:0 0 10px;">
+//                   ✅ Demande d'évaluation reçue
+//                 </div>
+//               </td>
+//             </tr>
 
-            <tr>
-              <td style="padding:0 24px 18px 24px;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;border:1px solid #eef0f4;border-radius:14px;">
-                  <tr>
-                    <td style="padding:16px 16px 14px 16px;">
-                      <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#344054;margin:0 0 12px;">
-                        ${leadGreeting}
-                      </div>
+//             <tr>
+//               <td style="padding:0 24px 18px 24px;">
+//                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;border:1px solid #eef0f4;border-radius:14px;">
+//                   <tr>
+//                     <td style="padding:16px 16px 14px 16px;">
+//                       <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#344054;margin:0 0 12px;">
+//                         ${leadGreeting}
+//                       </div>
 
-                      <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#344054;margin:0 0 10px;">
-                        Nous avons bien reçu votre demande d'évaluation immobilière.
-                      </div>
+//                       <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#344054;margin:0 0 10px;">
+//                         Nous avons bien reçu votre demande d'évaluation immobilière.
+//                       </div>
 
-                      <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#344054;margin:0;">
-                        Notre analyse est actuellement en cours et repose sur l'étude des propriétés comparables dans votre secteur.
-                        Un <b>expert immobilier local</b> validera l'estimation afin d'obtenir la valeur la plus précise possible.
-                      </div>
+//                       <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#344054;margin:0;">
+//                         Notre analyse est actuellement en cours et repose sur l'étude des propriétés comparables dans votre secteur.
+//                         Un <b>expert immobilier local</b> validera l'estimation afin d'obtenir la valeur la plus précise possible.
+//                       </div>
 
-                      <div style="height:12px;line-height:12px;font-size:1px;">&nbsp;</div>
+//                       <div style="height:12px;line-height:12px;font-size:1px;">&nbsp;</div>
 
-                      <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#344054;margin:0;">
-                        Si des informations supplémentaires sont nécessaires, vous serez contacté dans les prochaines <b>24 à 48 heures</b>.
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
+//                       <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#344054;margin:0;">
+//                         Si des informations supplémentaires sont nécessaires, vous serez contacté dans les prochaines <b>24 à 48 heures</b>.
+//                       </div>
+//                     </td>
+//                   </tr>
+//                 </table>
+//               </td>
+//             </tr>
 
-            ${finalizationCTA}
+//             ${finalizationCTA}
 
-            <tr>
-              <td style="padding:0 24px 24px 24px;">
-                <table role="presentation" cellpadding="0" cellspacing="0">
-                  <tr>
-                    <td align="left">
-                      <a href="${websiteUrl}"
-                         style="display:inline-block;background:#d6001c;color:#ffffff;text-decoration:none;font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:14px;line-height:16px;padding:12px 16px;border-radius:12px;">
-                        Revenir au site
-                      </a>
-                    </td>
-                    <td style="width:12px;"></td>
-                    <td align="left" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#667085;">
-                      ${websiteUrl}
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
+//             <tr>
+//               <td style="padding:0 24px 24px 24px;">
+//                 <table role="presentation" cellpadding="0" cellspacing="0">
+//                   <tr>
+//                     <td align="left">
+//                       <a href="${websiteUrl}"
+//                          style="display:inline-block;background:#d6001c;color:#ffffff;text-decoration:none;font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:14px;line-height:16px;padding:12px 16px;border-radius:12px;">
+//                         Revenir au site
+//                       </a>
+//                     </td>
+//                     <td style="width:12px;"></td>
+//                     <td align="left" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#667085;">
+//                       ${websiteUrl}
+//                     </td>
+//                   </tr>
+//                 </table>
+//               </td>
+//             </tr>
 
-            <tr>
-              <td style="padding:16px 24px 22px 24px;border-top:1px solid #eef0f4;">
-                <div style="font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#667085;">
-                  Merci pour votre confiance,<br/>
-                  <b>Valeur Maison Rapide</b>
-                </div>
-                <div style="height:10px;line-height:10px;font-size:1px;">&nbsp;</div>
-                <div style="font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.6;color:#98a2b3;">
-                  Si vous n'avez pas fait cette demande, vous pouvez ignorer ce message.
-                </div>
-              </td>
-            </tr>
-          </table>
+//             <tr>
+//               <td style="padding:16px 24px 22px 24px;border-top:1px solid #eef0f4;">
+//                 <div style="font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#667085;">
+//                   Merci pour votre confiance,<br/>
+//                   <b>Valeur Maison Rapide</b>
+//                 </div>
+//                 <div style="height:10px;line-height:10px;font-size:1px;">&nbsp;</div>
+//                 <div style="font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.6;color:#98a2b3;">
+//                   Si vous n'avez pas fait cette demande, vous pouvez ignorer ce message.
+//                 </div>
+//               </td>
+//             </tr>
+//           </table>
 
-          <div style="height:18px;line-height:18px;font-size:1px;">&nbsp;</div>
+//           <div style="height:18px;line-height:18px;font-size:1px;">&nbsp;</div>
 
-          <div style="font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.6;color:#98a2b3;text-align:center;max-width:600px;">
-            © Valeur Maison Rapide — Tous droits réservés
-          </div>
-        </td>
-      </tr>
-    </table>
-  </body>
-</html>`
+//           <div style="font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.6;color:#98a2b3;text-align:center;max-width:600px;">
+//             © Valeur Maison Rapide — Tous droits réservés
+//           </div>
+//         </td>
+//       </tr>
+//     </table>
+//   </body>
+// </html>`
 
-        const confirmationText = `${leadGreeting}
+//         const confirmationText = `${leadGreeting}
 
-Nous avons bien reçu votre demande d'évaluation immobilière.
+// Nous avons bien reçu votre demande d'évaluation immobilière.
 
-Notre analyse est actuellement en cours de finalisation et repose sur l'étude des propriétés comparables dans votre secteur.
-Un expert immobilier local validera l'estimation afin d'obtenir la valeur la plus précise possible.
+// Notre analyse est actuellement en cours de finalisation et repose sur l'étude des propriétés comparables dans votre secteur.
+// Un expert immobilier local validera l'estimation afin d'obtenir la valeur la plus précise possible.
 
-Si des informations supplémentaires sont nécessaires, vous serez contacté dans les prochaines 24 à 48 heures.
+// Si des informations supplémentaires sont nécessaires, vous serez contacté dans les prochaines 24 à 48 heures.
 
-Merci pour votre confiance,
-L'équipe de Valeur Maison Rapide
-${websiteUrl}
+// Merci pour votre confiance,
+// L'équipe de Valeur Maison Rapide
+// ${websiteUrl}
 
-Si vous n'avez pas fait cette demande, vous pouvez ignorer ce message.`
+// Si vous n'avez pas fait cette demande, vous pouvez ignorer ce message.`
 
-        await resend.emails.send({
-          from: "Valeur Maison Rapide <nepasrepondre@valeurmaisonrapide.com>",
-          to: email,
-          subject: "Demande d'évaluation reçue — Valeur Maison Rapide",
-          html: confirmationHtml,
-          text: confirmationText,
-        })
+//         await resend.emails.send({
+//           from: "Valeur Maison Rapide <nepasrepondre@valeurmaisonrapide.com>",
+//           to: email,
+//           subject: "Demande d'évaluation reçue — Valeur Maison Rapide",
+//           html: confirmationHtml,
+//           text: confirmationText,
+//         })
 
-        console.log("[v0] Courriel de confirmation envoyé avec succès à:", email)
-      } catch (confirmError: any) {
-        console.error("[v0] Erreur envoi confirmation au lead:", confirmError)
-        console.error("[v0] Détails erreur:", confirmError.message)
-      }
-    }
+//         console.log("[v0] Courriel de confirmation envoyé avec succès à:", email)
+//       } catch (confirmError: any) {
+//         console.error("[v0] Erreur envoi confirmation au lead:", confirmError)
+//         console.error("[v0] Détails erreur:", confirmError.message)
+//       }
+//     }
 
     return NextResponse.json({ ok: true, emailId: data?.id })
   } catch (err: any) {
