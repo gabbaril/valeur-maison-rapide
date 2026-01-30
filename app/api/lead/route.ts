@@ -30,6 +30,44 @@ export async function POST(request: Request) {
       referrer,
     } = body
 
+    function normalizeFullName(input: string): string {
+      return input
+        .replace(/[’‘]/g, "'")
+        .replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ'-]+/g, " ")
+        .replace(/\b[-']+|[-']+\b/g, "")
+        .replace(/\s+/g, " ")
+        .trim()
+        .split(" ")
+        .map(word =>
+          word
+            .split("-")
+            .map(part =>
+              part
+                .split("'")
+                .map(
+                  segment =>
+                    segment.charAt(0).toUpperCase() +
+                    segment.slice(1).toLowerCase()
+                )
+                .join("'")
+            )
+            .join("-")
+        )
+        .join(" ");
+    }
+
+    const normalizedName = normalizeFullName(fullName || "");
+    let first_name: string | null = null;
+    let last_name: string | null = null;
+
+    if (normalizedName) {
+      const parts = normalizedName.split(" ");
+
+      first_name = parts[0] || null;
+
+      last_name = parts.length > 1 ? parts.slice(1).join(" ") : null;
+    }
+
     const now = new Date()
     const montrealTime = new Date(now.toLocaleString("en-US", { timeZone: "America/Montreal" }))
     const leadId = `${montrealTime.getFullYear()}${String(montrealTime.getMonth() + 1).padStart(2, "0")}${String(montrealTime.getDate()).padStart(2, "0")}-${String(montrealTime.getHours()).padStart(2, "0")}${String(montrealTime.getMinutes()).padStart(2, "0")}`
@@ -47,7 +85,9 @@ export async function POST(request: Request) {
         .from("leads")
         .insert({
           lead_number: leadId,
-          full_name: fullName,
+          full_name: normalizedName,
+          first_name: first_name,
+          last_name: last_name,
           email: email,
           phone: phone,
           address: address,

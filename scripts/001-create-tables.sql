@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS leads (
   
   -- Lead information
   full_name TEXT NOT NULL,
+  first_name TEXT,
+  last_name TEXT,
   email TEXT NOT NULL,
   phone TEXT NOT NULL,
   address TEXT NOT NULL,
