@@ -38,6 +38,9 @@ interface IncomePropertyFormData {
   snow_maintenance: string
   utilities_if_owner_paid: string
   important_notes: string
+
+  // FILTRAGE VENDEUR (CRM)
+  open_to_broker: string
 }
 
 interface IncomePropertyEvaluationFormProps {
@@ -91,6 +94,7 @@ export default function IncomePropertyEvaluationForm({
     snow_maintenance: "",
     utilities_if_owner_paid: "",
     important_notes: "",
+    open_to_broker: "",
   })
 
   const handleChange = (field: keyof IncomePropertyFormData, value: string | boolean) => {
@@ -672,6 +676,36 @@ export default function IncomePropertyEvaluationForm({
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
                       />
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* FILTRAGE VENDEUR (CRM) */}
+              <div className="border-t-4 border-red-600 bg-white p-6 rounded-lg shadow-sm">
+                <h2 className="text-xl font-bold text-white bg-red-600 -mx-6 -mt-6 px-6 py-3 mb-6 rounded-t-lg">
+                  Suite possible à votre demande
+                </h2>
+                <p className="text-sm text-gray-500 mb-6">
+                  Ces questions nous permettent de déterminer si un accompagnement professionnel pourrait être pertinent dans votre situation. Vous pouvez y répondre librement, sans obligation.
+                </p>
+
+                <div className="space-y-6">
+                  {/* Ouverture à travailler avec un courtier */}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Si un accompagnement professionnel s'avérait pertinent, seriez-vous ouvert(e) à échanger avec un courtier immobilier ?
+                    </label>
+                    <select
+                      required
+                      value={formData.open_to_broker}
+                      onChange={(e) => handleChange("open_to_broker", e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                    >
+                      <option value="">Sélectionner...</option>
+                      <option value="Oui">Oui</option>
+                      <option value="Peut-être">Peut-être</option>
+                      <option value="Non">Non</option>
+                    </select>
                   </div>
                 </div>
               </div>
