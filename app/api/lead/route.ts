@@ -192,7 +192,7 @@ export async function POST(request: Request) {
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #dc2626; border-bottom: 2px solid #dc2626; padding-bottom: 10px;">Nouveau lead - Évaluation immobilière</h2>
         <table style="width: 100%; border-collapse: collapse;">
-          <tr><td style="padding: 8px 0; font-weight: bold;">Nom complet:</td><td>${fullName}</td></tr>
+          <tr><td style="padding: 8px 0; font-weight: bold;">Nom complet:</td><td>${normalizedName}</td></tr>
           <tr><td style="padding: 8px 0; font-weight: bold;">Courriel:</td><td><a href="mailto:${email}">${email}</a></td></tr>
           <tr><td style="padding: 8px 0; font-weight: bold;">Téléphone:</td><td><a href="tel:${phone}">${phone}</a></td></tr>
           <tr><td style="padding: 8px 0; font-weight: bold;">Adresse:</td><td>${address}</td></tr>
@@ -208,7 +208,7 @@ export async function POST(request: Request) {
     const { data, error } = await resend.emails.send({
       from: "Valeur Maison <nepasrepondre@valeurmaisonrapide.com>",
       to: process.env.LEAD_TO_EMAIL,
-      subject: `Lead #${leadId} – ${fullName} – ${address}`,
+      subject: `Lead #${leadId} – ${normalizedName} – ${address}`,
       html: emailHtml,
     })
 

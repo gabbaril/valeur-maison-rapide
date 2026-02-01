@@ -153,7 +153,7 @@ export function WhyDifferentSection({ scrollToForm, ctaText }: LandingSectionsPr
             <ul className="space-y-3 sm:space-y-4">
               {[
                 "Basée sur des ventes comparables récentes de votre secteur précis",
-                "Validation humaine effectuée par un expert local (suite à l'estimation automatisée)",
+                "Validation humaine effectuée par un expert local",
                 "Interprétation stratégique du marché actuel",
                 "Objectif clair : maximiser votre résultat net",
                 "Aucune pression pour vendre",
@@ -480,7 +480,7 @@ export function FAQSection() {
                   Est-ce une estimation automatique ?
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-700 pb-4 sm:pb-5 text-sm sm:text-base">
-                  Non. L'estimation débute par une analyse automatisée des ventes comparables les plus récentes dans
+                  Non. L'estimation débute par une analyse des ventes comparables les plus récentes dans
                   votre secteur, à l'aide de données de marché fiables. Cette analyse est ensuite finalisée et vérifiée
                   par un expert immobilier local, afin de tenir compte des particularités de votre propriété et du
                   contexte réel du marché. Cela permet d'obtenir une estimation plus juste, plus réaliste et beaucoup

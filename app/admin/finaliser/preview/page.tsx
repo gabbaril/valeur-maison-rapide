@@ -492,6 +492,7 @@ export default function FinaliserPreview() {
                         Si un accompagnement professionnel s'avérait pertinent, seriez-vous ouvert(e) à échanger avec un courtier immobilier ?
                       </label>
                       <select
+                        required
                         value={formData.open_to_broker}
                         onChange={(e) => handleChange("open_to_broker", e.target.value)}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
