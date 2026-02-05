@@ -572,7 +572,8 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                         <option value="">Sélectionner...</option>
                         <option value="Réflexion sur un changement résidentiel">Réflexion sur un changement résidentiel</option>
                         <option value="Achat éventuel d'une autre propriété">Achat éventuel d'une autre propriété</option>
-                        <option value="Succession / contexte familial">Succession / contexte familial</option>
+                        <option value="Séparation">Séparation</option>
+                        <option value="Succession">Succession</option>
                         <option value="Projet à moyen terme">Projet à moyen terme</option>
                         <option value="Simple mise à jour de valeur">Simple mise à jour de valeur</option>
                         <option value="Autre">Autre</option>
