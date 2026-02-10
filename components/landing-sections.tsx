@@ -5,13 +5,16 @@ import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { useCookieConsent } from "@/components/cookie-consent"
 
+export type LandingMapVariant = "default" | "quebec"
+
 interface LandingSectionsProps {
   scrollToForm: () => void
   ctaText?: string
-  subheadingText?: string
+  subheadingText?: string,
+  imageSrc?: string
 }
 
-export function HowItWorksSection({ scrollToForm, ctaText, subheadingText }: LandingSectionsProps) {
+export function HowItWorksSection({ scrollToForm, ctaText, subheadingText, imageSrc }: LandingSectionsProps) {
   return (
     <section className="bg-gray-50 px-4 md:px-6 lg:px-8 py-12 md:py-16 lg:py-24">
       <div className="mx-auto max-w-7xl">
@@ -129,8 +132,8 @@ export function HowItWorksSection({ scrollToForm, ctaText, subheadingText }: Lan
           {/* Right column - Image */}
           <div className="relative order-first lg:order-last">
             <img
-              src="/images/william-20barry-2050-20rue-20jette-cc-81-2c-20trois-rivie-cc-80res-33.jpg"
-              alt="Intérieur moderne d'une propriété"
+              src={imageSrc}
+              alt="Quartier résidentiel"
               className="rounded-lg shadow-xl w-full h-auto"
             />
           </div>
@@ -201,7 +204,7 @@ export function WhyDifferentSection({ scrollToForm, ctaText }: LandingSectionsPr
   )
 }
 
-export function NetworkMapSection() {
+export function NetworkMapSection({ mapVariant = "default", mapText = "plusieurs régions du Québec", }: { mapVariant?: LandingMapVariant, mapText?: string }) {
   return (
     <section className="bg-white px-4 md:px-6 lg:px-8 py-12 md:py-16 lg:py-24">
       <div className="mx-auto max-w-7xl text-center">
@@ -209,228 +212,352 @@ export function NetworkMapSection() {
           Une évaluation soutenue par un réseau de professionnels immobiliers locaux
         </h2>
         <p className="text-gray-600 text-sm sm:text-base max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed">
-          Chaque estimation est basée sur des données réelles du marché et peut être révisée par des experts actifs sur
-          le terrain.
+          Chaque estimation est basée sur des données réelles du marché et peut être révisée par des experts actifs
+          sur le terrain.
         </p>
 
         <div className="bg-white rounded-xl p-4 sm:p-6 md:p-8 shadow-lg border border-gray-100 overflow-hidden">
           <div className="flex justify-center mb-4 md:mb-6 overflow-hidden">
-            <svg viewBox="0 0 700 320" className="w-full max-w-3xl h-auto" xmlns="http://www.w3.org/2000/svg">
-              {/* Background terrain - green land */}
-              <rect x="0" y="0" width="700" height="320" fill="#e8f5e9" />
+            {mapVariant === "default" ? (
+              <svg viewBox="0 0 700 320" className="w-full max-w-3xl h-auto" xmlns="http://www.w3.org/2000/svg">
+                {/* Background terrain - green land */}
+                <rect x="0" y="0" width="700" height="320" fill="#e8f5e9" />
 
-              {/* St. Lawrence River - main waterway */}
-              <path
-                d="M0,180 Q50,175 100,185 Q180,200 250,190 Q320,178 380,175 Q450,170 520,160 Q580,150 640,140 Q680,135 700,130"
-                fill="none"
-                stroke="#90caf9"
-                strokeWidth="35"
-                strokeLinecap="round"
-              />
-              <path
-                d="M0,180 Q50,175 100,185 Q180,200 250,190 Q320,178 380,175 Q450,170 520,160 Q580,150 640,140 Q680,135 700,130"
-                fill="none"
-                stroke="#64b5f6"
-                strokeWidth="20"
-                strokeLinecap="round"
-              />
+                {/* St. Lawrence River - main waterway */}
+                <path
+                  d="M0,180 Q50,175 100,185 Q180,200 250,190 Q320,178 380,175 Q450,170 520,160 Q580,150 640,140 Q680,135 700,130"
+                  fill="none"
+                  stroke="#90caf9"
+                  strokeWidth="35"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M0,180 Q50,175 100,185 Q180,200 250,190 Q320,178 380,175 Q450,170 520,160 Q580,150 640,140 Q680,135 700,130"
+                  fill="none"
+                  stroke="#64b5f6"
+                  strokeWidth="20"
+                  strokeLinecap="round"
+                />
 
-              {/* River continuation to Trois-Rivières area */}
-              <path
-                d="M380,175 Q400,140 420,100 Q430,70 440,40"
-                fill="none"
-                stroke="#90caf9"
-                strokeWidth="18"
-                strokeLinecap="round"
-              />
-              <path
-                d="M380,175 Q400,140 420,100 Q430,70 440,40"
-                fill="none"
-                stroke="#64b5f6"
-                strokeWidth="10"
-                strokeLinecap="round"
-              />
+                {/* River continuation to Trois-Rivières area */}
+                <path
+                  d="M380,175 Q400,140 420,100 Q430,70 440,40"
+                  fill="none"
+                  stroke="#90caf9"
+                  strokeWidth="18"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M380,175 Q400,140 420,100 Q430,70 440,40"
+                  fill="none"
+                  stroke="#64b5f6"
+                  strokeWidth="10"
+                  strokeLinecap="round"
+                />
 
-              {/* Richelieu River towards Sherbrooke */}
-              <path
-                d="M280,195 Q300,230 340,270 Q360,290 380,310"
-                fill="none"
-                stroke="#90caf9"
-                strokeWidth="10"
-                strokeLinecap="round"
-              />
+                {/* Richelieu River towards Sherbrooke */}
+                <path
+                  d="M280,195 Q300,230 340,270 Q360,290 380,310"
+                  fill="none"
+                  stroke="#90caf9"
+                  strokeWidth="10"
+                  strokeLinecap="round"
+                />
 
-              {/* Land regions with subtle boundaries */}
-              <path
-                d="M0,0 L700,0 L700,130 Q680,135 640,140 Q580,150 520,160 Q450,170 380,175 Q320,178 250,190 Q180,200 100,185 Q50,175 0,180 Z"
-                fill="#c8e6c9"
-                fillOpacity="0.5"
-                stroke="#a5d6a7"
-                strokeWidth="1"
-              />
-              <path
-                d="M0,180 Q50,175 100,185 Q180,200 250,190 Q320,178 380,175 Q450,170 520,160 Q580,150 640,140 Q680,135 700,130 L700,320 L0,320 Z"
-                fill="#dcedc8"
-                fillOpacity="0.5"
-                stroke="#c5e1a5"
-                strokeWidth="1"
-              />
+                {/* Land regions with subtle boundaries */}
+                {/* North shore regions */}
+                <path
+                  d="M0,0 L700,0 L700,130 Q680,135 640,140 Q580,150 520,160 Q450,170 380,175 Q320,178 250,190 Q180,200 100,185 Q50,175 0,180 Z"
+                  fill="#c8e6c9"
+                  fillOpacity="0.5"
+                  stroke="#a5d6a7"
+                  strokeWidth="1"
+                />
 
-              {/* Regional boundaries */}
-              <path d="M180,150 L180,220" stroke="#a5d6a7" strokeWidth="1" strokeDasharray="4 4" />
-              <path d="M280,80 L320,170" stroke="#a5d6a7" strokeWidth="1" strokeDasharray="4 4" />
-              <path d="M450,60 L480,150" stroke="#a5d6a7" strokeWidth="1" strokeDasharray="4 4" />
-              <path d="M580,50 L600,140" stroke="#a5d6a7" strokeWidth="1" strokeDasharray="4 4" />
-              <path d="M350,220 L400,280" stroke="#c5e1a5" strokeWidth="1" strokeDasharray="4 4" />
+                {/* South shore regions */}
+                <path
+                  d="M0,180 Q50,175 100,185 Q180,200 250,190 Q320,178 380,175 Q450,170 520,160 Q580,150 640,140 Q680,135 700,130 L700,320 L0,320 Z"
+                  fill="#dcedc8"
+                  fillOpacity="0.5"
+                  stroke="#c5e1a5"
+                  strokeWidth="1"
+                />
 
-              {/* Highway routes */}
-              <path
-                d="M50,230 Q150,225 250,218 Q350,210 450,200 Q550,190 650,175"
-                fill="none"
-                stroke="#9e9e9e"
-                strokeWidth="2"
-                strokeDasharray="8 4"
-                opacity="0.4"
-              />
-              <path
-                d="M50,140 Q150,130 250,125 Q350,120 420,115 Q500,105 580,95 Q640,85 680,80"
-                fill="none"
-                stroke="#9e9e9e"
-                strokeWidth="2"
-                strokeDasharray="8 4"
-                opacity="0.4"
-              />
+                {/* Regional boundaries - subtle lines */}
+                {/* Laval/Montreal area boundary */}
+                <path d="M180,150 L180,220" stroke="#a5d6a7" strokeWidth="1" strokeDasharray="4 4" />
+                {/* Lanaudière boundary */}
+                <path d="M280,80 L320,170" stroke="#a5d6a7" strokeWidth="1" strokeDasharray="4 4" />
+                {/* Mauricie boundary */}
+                <path d="M450,60 L480,150" stroke="#a5d6a7" strokeWidth="1" strokeDasharray="4 4" />
+                {/* Capitale-Nationale boundary */}
+                <path d="M580,50 L600,140" stroke="#a5d6a7" strokeWidth="1" strokeDasharray="4 4" />
+                {/* Estrie boundary */}
+                <path d="M350,220 L400,280" stroke="#c5e1a5" strokeWidth="1" strokeDasharray="4 4" />
 
-              {/* City markers */}
-              {/* Montreal */}
-              <circle
-                cx="200"
-                cy="185"
-                r="24"
-                fill="none"
-                stroke="#dc2626"
-                strokeWidth="1.5"
-                strokeDasharray="4 3"
-                opacity="0.4"
-                className="pulse-ring"
-              />
-              <circle cx="200" cy="185" r="10" fill="#dc2626" className="pulse-dot" />
-              <text x="155" y="215" fontSize="13" fill="#1a1a1a" fontWeight="700">
-                Montréal
-              </text>
+                {/* Highway routes - subtle gray lines */}
+                {/* Highway 20 - South shore */}
+                <path
+                  d="M50,230 Q150,225 250,218 Q350,210 450,200 Q550,190 650,175"
+                  fill="none"
+                  stroke="#9e9e9e"
+                  strokeWidth="2"
+                  strokeDasharray="8 4"
+                  opacity="0.4"
+                />
+                {/* Highway 40 - North shore */}
+                <path
+                  d="M50,140 Q150,130 250,125 Q350,120 420,115 Q500,105 580,95 Q640,85 680,80"
+                  fill="none"
+                  stroke="#9e9e9e"
+                  strokeWidth="2"
+                  strokeDasharray="8 4"
+                  opacity="0.4"
+                />
 
-              {/* Laval */}
-              <circle
-                cx="220"
-                cy="145"
-                r="14"
-                fill="none"
-                stroke="#dc2626"
-                strokeWidth="1"
-                strokeDasharray="4 3"
-                opacity="0.35"
-                className="pulse-ring-delay-1"
-              />
-              <circle cx="220" cy="145" r="5" fill="#dc2626" className="pulse-dot-delay-1" />
-              <text x="236" y="150" fontSize="11" fill="#424242" fontWeight="600">
-                Laval
-              </text>
+                {/* City markers with pulsing circles */}
+                {/* Montreal - positioned on island */}
+                <circle
+                  cx="200"
+                  cy="185"
+                  r="24"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="1.5"
+                  strokeDasharray="4 3"
+                  opacity="0.4"
+                  className="pulse-ring"
+                />
+                <circle cx="200" cy="185" r="10" fill="#dc2626" className="pulse-dot" />
+                <text x="155" y="215" fontSize="13" fill="#1a1a1a" fontWeight="700">
+                  Montréal
+                </text>
 
-              {/* Trois-Rivières */}
-              <circle
-                cx="420"
-                cy="115"
-                r="18"
-                fill="none"
-                stroke="#dc2626"
-                strokeWidth="1"
-                strokeDasharray="4 3"
-                opacity="0.35"
-                className="pulse-ring-delay-2"
-              />
-              <circle cx="420" cy="115" r="7" fill="#dc2626" className="pulse-dot-delay-2" />
-              <text x="438" y="120" fontSize="12" fill="#424242" fontWeight="600">
-                Trois-Rivières
-              </text>
+                {/* Laval - north of Montreal */}
+                <circle
+                  cx="220"
+                  cy="145"
+                  r="14"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="1"
+                  strokeDasharray="4 3"
+                  opacity="0.35"
+                  className="pulse-ring-delay-1"
+                />
+                <circle cx="220" cy="145" r="5" fill="#dc2626" className="pulse-dot-delay-1" />
+                <text x="236" y="150" fontSize="11" fill="#424242" fontWeight="600">
+                  Laval
+                </text>
 
-              {/* Shawinigan */}
-              <circle
-                cx="400"
-                cy="60"
-                r="14"
-                fill="none"
-                stroke="#dc2626"
-                strokeWidth="1"
-                strokeDasharray="4 3"
-                opacity="0.35"
-                className="pulse-ring-delay-3"
-              />
-              <circle cx="400" cy="60" r="5" fill="#dc2626" className="pulse-dot-delay-3" />
-              <text x="355" y="50" fontSize="11" fill="#1a1a1a" fontWeight="700">
-                Shawinigan
-              </text>
+                {/* Trois-Rivières - midway on north shore */}
+                <circle
+                  cx="420"
+                  cy="115"
+                  r="18"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="1"
+                  strokeDasharray="4 3"
+                  opacity="0.35"
+                  className="pulse-ring-delay-2"
+                />
+                <circle cx="420" cy="115" r="7" fill="#dc2626" className="pulse-dot-delay-2" />
+                <text x="438" y="120" fontSize="12" fill="#424242" fontWeight="600">
+                  Trois-Rivières
+                </text>
 
-              {/* Quebec City */}
-              <circle
-                cx="620"
-                cy="100"
-                r="22"
-                fill="none"
-                stroke="#dc2626"
-                strokeWidth="1.5"
-                strokeDasharray="4 3"
-                opacity="0.4"
-                className="pulse-ring-delay-4"
-              />
-              <circle cx="620" cy="100" r="9" fill="#dc2626" className="pulse-dot-delay-4" />
-              <text x="638" y="105" fontSize="13" fill="#1a1a1a" fontWeight="700">
-                Québec
-              </text>
+                {/* Shawinigan - north of Trois-Rivières */}
+                <circle
+                  cx="400"
+                  cy="60"
+                  r="14"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="1"
+                  strokeDasharray="4 3"
+                  opacity="0.35"
+                  className="pulse-ring-delay-3"
+                />
+                <circle cx="400" cy="60" r="5" fill="#dc2626" className="pulse-dot-delay-3" />
+                <text x="355" y="50" fontSize="11" fill="#424242" fontWeight="600">
+                  Shawinigan
+                </text>
 
-              {/* Sherbrooke */}
-              <circle
-                cx="420"
-                cy="265"
-                r="16"
-                fill="none"
-                stroke="#dc2626"
-                strokeWidth="1"
-                strokeDasharray="4 3"
-                opacity="0.35"
-                className="pulse-ring-delay-2"
-              />
-              <circle cx="420" cy="265" r="6" fill="#dc2626" className="pulse-dot-delay-2" />
-              <text x="438" y="270" fontSize="12" fill="#424242" fontWeight="600">
-                Sherbrooke
-              </text>
+                {/* Quebec City - east end */}
+                <circle
+                  cx="620"
+                  cy="100"
+                  r="22"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="1.5"
+                  strokeDasharray="4 3"
+                  opacity="0.4"
+                  className="pulse-ring-delay-4"
+                />
+                <circle cx="620" cy="100" r="9" fill="#dc2626" className="pulse-dot-delay-4" />
+                <text x="638" y="105" fontSize="13" fill="#1a1a1a" fontWeight="700">
+                  Québec
+                </text>
 
-              {/* Secondary cities */}
-              <circle cx="380" cy="220" r="4" fill="#dc2626" opacity="0.6" className="pulse-dot-delay-3" />
-              <text x="390" y="225" fontSize="9" fill="#757575" fontWeight="500">
-                Drummondville
-              </text>
+                {/* Sherbrooke - southeast */}
+                <circle
+                  cx="420"
+                  cy="265"
+                  r="16"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="1"
+                  strokeDasharray="4 3"
+                  opacity="0.35"
+                  className="pulse-ring-delay-2"
+                />
+                <circle cx="420" cy="265" r="6" fill="#dc2626" className="pulse-dot-delay-2" />
+                <text x="438" y="270" fontSize="12" fill="#424242" fontWeight="600">
+                  Sherbrooke
+                </text>
 
-              <circle cx="310" cy="185" r="4" fill="#dc2626" opacity="0.6" className="pulse-dot-delay-4" />
-              <text x="320" y="182" fontSize="9" fill="#757575" fontWeight="500">
-                Sorel-Tracy
-              </text>
+                {/* Secondary cities - smaller dots */}
+                {/* Drummondville */}
+                <circle cx="380" cy="220" r="4" fill="#dc2626" opacity="0.6" className="pulse-dot-delay-3" />
+                <text x="390" y="225" fontSize="9" fill="#757575" fontWeight="500">
+                  Drummondville
+                </text>
 
-              <circle cx="320" cy="245" r="4" fill="#dc2626" opacity="0.6" className="pulse-dot-delay-1" />
-              <text x="330" y="250" fontSize="9" fill="#757575" fontWeight="500">
-                Granby
-              </text>
+                {/* Sorel-Tracy */}
+                <circle cx="310" cy="185" r="4" fill="#dc2626" opacity="0.6" className="pulse-dot-delay-4" />
+                <text x="320" y="182" fontSize="9" fill="#757575" fontWeight="500">
+                  Sorel-Tracy
+                </text>
 
-              <circle cx="290" cy="220" r="4" fill="#dc2626" opacity="0.6" className="pulse-dot-delay-2" />
-              <text x="255" y="232" fontSize="9" fill="#757575" fontWeight="500">
-                St-Hyacinthe
-              </text>
-            </svg>
+                {/* Granby */}
+                <circle cx="320" cy="245" r="4" fill="#dc2626" opacity="0.6" className="pulse-dot-delay-1" />
+                <text x="330" y="250" fontSize="9" fill="#757575" fontWeight="500">
+                  Granby
+                </text>
+
+                {/* Saint-Hyacinthe */}
+                <circle cx="290" cy="220" r="4" fill="#dc2626" opacity="0.6" className="pulse-dot-delay-2" />
+                <text x="255" y="232" fontSize="9" fill="#757575" fontWeight="500">
+                  St-Hyacinthe
+                </text>
+              </svg>
+            ) : (
+              <svg viewBox="0 0 700 320" className="w-full max-w-3xl h-auto" xmlns="http://www.w3.org/2000/svg">
+                {/* Background terrain - green land */}
+                <rect x="0" y="0" width="700" height="320" fill="#e8f5e9" />
+
+                {/* City markers with pulsing circles */}
+                {/*  Sainte-Foy–Sillery–Cap-Rouge */}
+                <circle
+                  cx="120"
+                  cy="165"
+                  r="24"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="1.5"
+                  strokeDasharray="4 3"
+                  opacity="0.4"
+                  className="pulse-ring"
+                />
+                <circle cx="120" cy="165" r="10" fill="#dc2626" className="pulse-dot" />
+                <text x="150" y="170" fontSize="13" fill="#1a1a1a" fontWeight="700">
+                  Sainte-Foy–Sillery–Cap-Rouge
+                </text>
+
+                {/* Les Rivières */}
+                <circle
+                  cx="330"
+                  cy="215"
+                  r="14"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="1"
+                  strokeDasharray="4 3"
+                  opacity="0.35"
+                  className="pulse-ring-delay-1"
+                />
+                <circle cx="330" cy="215" r="5" fill="#dc2626" className="pulse-dot-delay-1" />
+                <text x="351" y="220" fontSize="11" fill="#424242" fontWeight="600">
+                  Les Rivières
+                </text>
+
+                {/* La Haute-Saint-Charles */}
+                <circle
+                  cx="140"
+                  cy="75"
+                  r="18"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="1"
+                  strokeDasharray="4 3"
+                  opacity="0.35"
+                  className="pulse-ring-delay-2"
+                />
+                <circle cx="140" cy="75" r="7" fill="#dc2626" className="pulse-dot-delay-2" />
+                <text x="165" y="80" fontSize="12" fill="#424242" fontWeight="600">
+                  La Haute-Saint-Charles
+                </text>
+
+                {/* Beauport */}
+                <circle
+                  cx="520"
+                  cy="160"
+                  r="14"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="1"
+                  strokeDasharray="4 3"
+                  opacity="0.35"
+                  className="pulse-ring-delay-3"
+                />
+                <circle cx="520" cy="160" r="5" fill="#dc2626" className="pulse-dot-delay-3" />
+                <text x="540" y="163" fontSize="11" fill="#424242" fontWeight="600">
+                  Beauport
+                </text>
+
+                {/* La Cité-Limoilou */}
+                <circle
+                  cx="470"
+                  cy="270"
+                  r="22"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="1.5"
+                  strokeDasharray="4 3"
+                  opacity="0.4"
+                  className="pulse-ring-delay-4"
+                />
+                <circle cx="470" cy="270" r="9" fill="#dc2626" className="pulse-dot-delay-4" />
+                <text x="498" y="275" fontSize="13" fill="#1a1a1a" fontWeight="700">
+                  La Cité-Limoilou
+                </text>
+
+                {/* Charlesbourg */}
+                <circle
+                  cx="420"
+                  cy="105"
+                  r="16"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="1"
+                  strokeDasharray="4 3"
+                  opacity="0.35"
+                  className="pulse-ring-delay-2"
+                />
+                <circle cx="420" cy="105" r="6" fill="#dc2626" className="pulse-dot-delay-2" />
+                <text x="442" y="110" fontSize="12" fill="#424242" fontWeight="600">
+                  Charlesbourg
+                </text>
+              </svg>
+            )}
           </div>
 
           {/* Legend */}
           <div className="text-center">
             <p className="text-xs sm:text-sm text-gray-500 mb-2">
-              Présence de partenaires immobiliers locaux dans plusieurs régions du Québec.
+              Présence de partenaires immobiliers locaux dans {mapText}.
             </p>
             <p className="text-xs text-gray-400 max-w-2xl mx-auto mb-2 sm:mb-3 px-2">
               Selon les informations fournies, un professionnel immobilier local peut analyser votre situation afin
