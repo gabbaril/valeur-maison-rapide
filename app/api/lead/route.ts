@@ -28,6 +28,7 @@ export async function POST(request: Request) {
       utm_content,
       utm_term,
       referrer,
+      conversion_url,
     } = body
 
     function normalizeFullName(input: string): string {
@@ -99,6 +100,7 @@ export async function POST(request: Request) {
           utm_medium: utm_medium || null,
           utm_campaign: utm_campaign || null,
           referrer: referrer || null,
+          conversion_url: conversion_url || null,
         })
         .select()
         .single()

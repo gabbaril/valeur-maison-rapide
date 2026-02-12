@@ -127,6 +127,7 @@ export function LandingPageTemplate({
     setIsSubmitting(true)
 
     const payload = {
+      conversion_url: `${window.location.host}${pathname === "/" ? "" : pathname}`,
       fullName: formData.firstName,
       email: formData.email,
       phone: formData.phone,
