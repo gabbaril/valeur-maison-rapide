@@ -19,11 +19,18 @@
 
 "use client"
 
+import { usePathname } from "next/navigation"
 import Script from "next/script"
 import { useCookieConsent } from "./cookie-consent-provider"
 
+const GOOGLE_ADS_ID_DEFAULT = "AW-17852385943"
+const GOOGLE_ADS_ID_QUEBEC = "AW-17944802986"
+
 export function ConditionalScripts() {
+  const pathname = usePathname()
   const { consent, isLoaded } = useCookieConsent()
+
+  const googleAdsTrackingId = pathname?.startsWith("/quebec") ? GOOGLE_ADS_ID_QUEBEC : GOOGLE_ADS_ID_DEFAULT
 
   // Ne rien charger tant que le consentement n'est pas determine
   if (!isLoaded) return null
@@ -34,7 +41,7 @@ export function ConditionalScripts() {
       {consent?.marketing && (
         <>
           <Script
-            src="https://www.googletagmanager.com/gtag/js?id=AW-17852385943"
+            src={`https://www.googletagmanager.com/gtag/js?id=${googleAdsTrackingId}`}
             strategy="afterInteractive"
           />
           <Script id="google-ads-gtag" strategy="afterInteractive">
@@ -42,7 +49,7 @@ export function ConditionalScripts() {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'AW-17852385943');
+              gtag('config', '${googleAdsTrackingId}');
             `}
           </Script>
         </>
