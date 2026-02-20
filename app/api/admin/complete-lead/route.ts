@@ -154,6 +154,7 @@ export async function POST(request: Request) {
           potential_sale_desire: income_property_data.sale_planned || null,
           ideal_sale_deadline: income_property_data.sale_horizon || null,
           approximate_market_value: income_property_data.owner_estimated_value || null,
+          open_to_broker: income_property_data.open_to_broker || null,
         })
         .eq("id", tokenData.lead_id)
 
