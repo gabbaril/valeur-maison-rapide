@@ -170,7 +170,8 @@ export function LandingPageTemplate({
       }
 
       setSubmitSuccess(true)
-      router.push(`${pathname}/merci`)
+      const thankYouPath = pathname === "/" ? "/merci" : `${pathname.replace(/\/$/, "")}/merci`
+      router.push(thankYouPath)
     } catch (error: any) {
       alert(`Une erreur est survenue: ${error.message}`)
       setIsSubmitting(false)
