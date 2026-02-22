@@ -1,4 +1,4 @@
-export type LandingImageVariant = "default" | "trois-rivieres" | "quebec"
+export type LandingImageVariant = "default" | "trois-rivieres" | "quebec" | "rimouski"
 
 export const LANDING_IMAGES: Record<
   LandingImageVariant,
@@ -7,7 +7,7 @@ export const LANDING_IMAGES: Record<
     howItWorksImage: string
   }
 > = {
-  default: {
+  "default": {
     heroBackground: "/images/trois-rivieres-hero.jpg",
     howItWorksImage: "/images/trois-rivieres-area.jpg",
   },
@@ -17,8 +17,12 @@ export const LANDING_IMAGES: Record<
     howItWorksImage: "/images/trois-rivieres-area.jpg",
   },
 
-  quebec: {
+  "quebec": {
     heroBackground: "/images/quebec-hero.jpg",
+    howItWorksImage: "/images/quebec-area.jpg",
+  },
+  "rimouski": {
+    heroBackground: "/images/rimouski-hero.jpg",
     howItWorksImage: "/images/quebec-area.jpg",
   },
 }
