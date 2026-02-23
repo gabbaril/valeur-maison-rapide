@@ -33,11 +33,16 @@ export async function POST(request: Request) {
 
     function normalizeFullName(input: string): string {
       return input
-        .replace(/[’‘]/g, "'")
-        .replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ'-]+/g, " ")
-        .replace(/\b[-']+|[-']+\b/g, "")
+        .replace(/[’‘`´]/g, "'")
+        .replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g, "-")
+        .replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ'\-\s]+/g, " ")
         .replace(/\s+/g, " ")
         .trim()
+        .replace(/(^| )[-']+/g, "$1")
+        .replace(/[-']+(?= |$)/g, "")
+        .replace(/-+/g, "-")
+        .replace(/'+/g, "'")
+
         .split(" ")
         .map(word =>
           word
@@ -45,11 +50,7 @@ export async function POST(request: Request) {
             .map(part =>
               part
                 .split("'")
-                .map(
-                  segment =>
-                    segment.charAt(0).toUpperCase() +
-                    segment.slice(1).toLowerCase()
-                )
+                .map(seg => seg ? seg[0].toUpperCase() + seg.slice(1).toLowerCase() : "")
                 .join("'")
             )
             .join("-")
