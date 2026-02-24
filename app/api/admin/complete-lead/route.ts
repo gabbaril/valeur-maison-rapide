@@ -252,7 +252,7 @@ export async function POST(request: Request) {
 
         try {
           await resend.emails.send({
-            from: "Valeur Maison <nepasrepondre@valeurmaisonrapide.com>",
+            from: "Valeur Maison <nepasrepondre@cap2b.ca>",
             to: process.env.LEAD_TO_EMAIL,
             subject: `✅ Lead finalisé (Immeuble à revenus) - ${leadData.full_name} - ${leadData.address}`,
             html: incomePropertyEmailHtml,
@@ -434,7 +434,7 @@ export async function POST(request: Request) {
         // Send to admin
         if (process.env.LEAD_TO_EMAIL) {
           await resend.emails.send({
-            from: "Valeur Maison <nepasrepondre@valeurmaisonrapide.com>",
+            from: "Valeur Maison <nepasrepondre@cap2b.ca>",
             to: process.env.LEAD_TO_EMAIL,
             subject: `✅ Lead finalisé - ${leadData.full_name} - ${leadData.address}`,
             html: emailHtml,

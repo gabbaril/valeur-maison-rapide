@@ -99,7 +99,7 @@ export async function POST(request: Request) {
         `
 
         await resend.emails.send({
-          from: "Valeur Maison <nepasrepondre@valeurmaisonrapide.com>",
+          from: "Valeur Maison <nepasrepondre@cap2b.ca>",
           to: process.env.LEAD_TO_EMAIL!,
           subject: `Lead #${lead.lead_number} – ${lead.full_name} – ${lead.address}`,
           html: emailHtml,

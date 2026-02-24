@@ -210,7 +210,7 @@ export async function POST(request: Request) {
     `
 
     const { data, error } = await resend.emails.send({
-      from: "Valeur Maison <nepasrepondre@valeurmaisonrapide.com>",
+      from: "Valeur Maison Rapide <nepasrepondre@cap2b.ca>",
       to: process.env.LEAD_TO_EMAIL,
       subject: `Lead #${leadId} – ${normalizedName} – ${address}`,
       html: emailHtml,
