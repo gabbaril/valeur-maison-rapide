@@ -562,7 +562,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                     {/* Raison de la demande */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Quelle est la raison principale de votre demande ?
+                        Quelle est la raison principale de votre demande ? <span className="text-red-600">*</span>
                       </label>
                       <select
                         required
@@ -585,7 +585,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                     {/* Horizon de temps */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Horizon envisagé pour votre projet immobilier
+                        Horizon envisagé pour votre projet immobilier <span className="text-red-600">*</span>
                       </label>
                       <select
                         required
@@ -656,7 +656,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                     {/* Ouverture à travailler avec un courtier */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
-                        Si un accompagnement professionnel s'avérait pertinent, seriez-vous ouvert(e) à échanger avec un courtier immobilier ?
+                        Si un accompagnement professionnel s'avérait pertinent, seriez-vous ouvert(e) à échanger avec un courtier immobilier ? <span className="text-red-600">*</span>
                       </label>
                       <select
                         required
