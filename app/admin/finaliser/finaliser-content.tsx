@@ -40,7 +40,7 @@ interface LeadFormData {
 // Helper function to determine if property type is an income property
 function isIncomeProperty(propertyType: string | null | undefined): boolean {
   if (!propertyType) return false
-  
+
   const incomePropertyTypes = [
     // New values
     "immeuble-revenus-4-et-moins",
@@ -55,7 +55,7 @@ function isIncomeProperty(propertyType: string | null | undefined): boolean {
     "quadruplex",
     "Quadruplex",
   ]
-  
+
   return incomePropertyTypes.includes(propertyType)
 }
 
@@ -175,7 +175,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
 
   const validateStep1 = (): boolean => {
     const errors: string[] = []
-    
+
     // Champs obligatoires de l'étape 1
     if (!formData.bedrooms_count) errors.push("Nombre de chambres")
     if (!formData.bathrooms_count) errors.push("Nombre de salles de bain")
@@ -183,7 +183,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
     if (!formData.floors_count) errors.push("Nombre d'étages")
     if (!formData.basement_info) errors.push("Informations sur le sous-sol")
     if (!formData.garage) errors.push("Garage / Stationnement")
-    
+
     setValidationErrors(errors)
     return errors.length === 0
   }
@@ -191,7 +191,7 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
   const handleContinueClick = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    
+
     if (validateStep1()) {
       setValidationErrors([])
       goToNextStep()
@@ -572,9 +572,10 @@ export default function FinaliserContent({ token: tokenProp }: { token?: string 
                         <option value="">Sélectionner...</option>
                         <option value="Réflexion sur un changement résidentiel">Réflexion sur un changement résidentiel</option>
                         <option value="Achat éventuel d'une autre propriété">Achat éventuel d'une autre propriété</option>
-                        <option value="Séparation">Séparation</option>
+                        <option value="Séparation / Rachat de part">Séparation / Rachat de part</option>
+                        <option value="Séparation / Vente de la maison">Séparation / Vente de la maison</option>
                         <option value="Succession">Succession</option>
-                        <option value="Projet à moyen terme">Projet à moyen terme</option>
+                        <option value="Refinancement hypothécaire">Refinancement hypothécaire</option>
                         <option value="Simple mise à jour de valeur">Simple mise à jour de valeur</option>
                         <option value="Autre">Autre</option>
                       </select>
