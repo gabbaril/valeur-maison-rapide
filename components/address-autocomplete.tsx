@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useEffect, useRef, useState } from "react"
-import type { google } from "googlemaps"
+import { useEffect, useRef, useState, useCallback } from "react"
 
 interface AddressAutocompleteProps {
   value: string
@@ -16,7 +15,7 @@ interface AddressAutocompleteProps {
 
 declare global {
   interface Window {
-    google: typeof google
+    google: any
     initGooglePlaces: () => void
   }
 }
@@ -30,20 +29,27 @@ export default function AddressAutocomplete({
   id = "address",
   name = "address",
 }: AddressAutocompleteProps) {
-  const inputRef = useRef<HTMLInputElement>(null)
-  const autocompleteRef = useRef<any | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const autocompleteElementRef = useRef<any | null>(null)
+  const hiddenInputRef = useRef<HTMLInputElement>(null)
   const [isGoogleLoaded, setIsGoogleLoaded] = useState(false)
+  const [inputValue, setInputValue] = useState(value)
+
+  // Update local state when prop changes
+  useEffect(() => {
+    setInputValue(value)
+  }, [value])
 
   useEffect(() => {
     // Check if Google Maps is loaded (script is loaded via layout.tsx)
-    if (window.google?.maps?.places) {
+    if (window.google?.maps?.places?.PlaceAutocompleteElement) {
       setIsGoogleLoaded(true)
       return
     }
 
     // Wait for Google Maps to load
     const checkGoogle = setInterval(() => {
-      if (window.google?.maps?.places) {
+      if (window.google?.maps?.places?.PlaceAutocompleteElement) {
         setIsGoogleLoaded(true)
         clearInterval(checkGoogle)
       }
@@ -60,48 +66,117 @@ export default function AddressAutocomplete({
     }
   }, [])
 
-  useEffect(() => {
-    if (!isGoogleLoaded || !inputRef.current || autocompleteRef.current) return
+  const handlePlaceSelect = useCallback((place: any) => {
+    if (place?.formattedAddress) {
+      setInputValue(place.formattedAddress)
+      onChange(place.formattedAddress)
+    }
+  }, [onChange])
 
-    // Initialize autocomplete
-    autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
-      types: ["address"],
+  useEffect(() => {
+    if (!isGoogleLoaded || !containerRef.current || autocompleteElementRef.current) return
+
+    // Create PlaceAutocompleteElement
+    const autocompleteElement = new window.google.maps.places.PlaceAutocompleteElement({
       componentRestrictions: { country: "ca" },
-      fields: ["formatted_address", "address_components"],
+      types: ["address"],
     })
 
-    // Bias results to Quebec
-    const quebecBounds = new window.google.maps.LatLngBounds(
-      new window.google.maps.LatLng(45.0, -79.5), // SW corner
-      new window.google.maps.LatLng(62.0, -57.0), // NE corner
-    )
-    autocompleteRef.current.setBounds(quebecBounds)
+    // Style the element to match the design
+    autocompleteElement.style.width = "100%"
+    
+    // Add placeholder attribute
+    autocompleteElement.setAttribute("placeholder", placeholder)
+
+    // Append to container
+    containerRef.current.appendChild(autocompleteElement)
+    autocompleteElementRef.current = autocompleteElement
 
     // Handle place selection
-    autocompleteRef.current.addListener("place_changed", () => {
-      const place = autocompleteRef.current?.getPlace()
-      if (place?.formatted_address) {
-        onChange(place.formatted_address)
-      }
+    autocompleteElement.addEventListener("gmp-placeselect", async (event: any) => {
+      const place = event.place
+      await place.fetchFields({ fields: ["formattedAddress", "addressComponents"] })
+      handlePlaceSelect(place)
     })
-  }, [isGoogleLoaded, onChange])
 
+    // Cleanup on unmount
+    return () => {
+      if (autocompleteElementRef.current && containerRef.current) {
+        try {
+          containerRef.current.removeChild(autocompleteElementRef.current)
+        } catch (e) {
+          // Element might already be removed
+        }
+        autocompleteElementRef.current = null
+      }
+    }
+  }, [isGoogleLoaded, placeholder, handlePlaceSelect])
+
+  // Fallback input for when Google isn't loaded
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value)
     onChange(e.target.value)
   }
 
   return (
-    <input
-      ref={inputRef}
-      type="text"
-      id={id}
-      name={name}
-      required={required}
-      value={value}
-      onChange={handleInputChange}
-      placeholder={placeholder}
-      className={className}
-      autoComplete="off"
-    />
+    <div className="relative">
+      {/* Hidden input for form validation */}
+      <input
+        ref={hiddenInputRef}
+        type="hidden"
+        id={id}
+        name={name}
+        value={inputValue}
+        required={required}
+      />
+      
+      {/* Container for PlaceAutocompleteElement */}
+      <div 
+        ref={containerRef} 
+        className={`address-autocomplete-container ${className}`}
+        style={{
+          display: isGoogleLoaded ? "block" : "none",
+        }}
+      />
+      
+      {/* Fallback input when Google isn't loaded */}
+      {!isGoogleLoaded && (
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          placeholder={placeholder}
+          className={className}
+          autoComplete="off"
+          required={required}
+        />
+      )}
+      
+      {/* Styles for the PlaceAutocompleteElement */}
+      <style jsx global>{`
+        .address-autocomplete-container input {
+          width: 100%;
+          padding: 0.625rem 0.75rem;
+          border: 1px solid #d1d5db;
+          border-radius: 0.5rem;
+          font-size: 0.875rem;
+          line-height: 1.5;
+          outline: none;
+          transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        
+        .address-autocomplete-container input:focus {
+          border-color: #f97316;
+          box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+        }
+        
+        @media (min-width: 640px) {
+          .address-autocomplete-container input {
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+          }
+        }
+      `}</style>
+    </div>
   )
 }
