@@ -102,7 +102,7 @@ export default function FinaliserPreview() {
 
   const validateStep1 = (): boolean => {
     const errors: string[] = []
-    
+
     // Champs obligatoires de l'étape 1
     if (!formData.bedrooms_count) errors.push("Nombre de chambres")
     if (!formData.bathrooms_count) errors.push("Nombre de salles de bain")
@@ -110,7 +110,7 @@ export default function FinaliserPreview() {
     if (!formData.floors_count) errors.push("Nombre d'étages")
     if (!formData.basement_info) errors.push("Informations sur le sous-sol")
     if (!formData.garage) errors.push("Garage / Stationnement")
-    
+
     setValidationErrors(errors)
     return errors.length === 0
   }
@@ -118,7 +118,7 @@ export default function FinaliserPreview() {
   const handleContinueClick = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    
+
     if (validateStep1()) {
       setValidationErrors([])
       goToNextStep()
@@ -418,6 +418,7 @@ export default function FinaliserPreview() {
                         Quelle est la raison principale de votre demande ?
                       </label>
                       <select
+                        required
                         value={formData.sale_reason}
                         onChange={(e) => handleChange("sale_reason", e.target.value)}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
@@ -425,9 +426,10 @@ export default function FinaliserPreview() {
                         <option value="">Sélectionner...</option>
                         <option value="Réflexion sur un changement résidentiel">Réflexion sur un changement résidentiel</option>
                         <option value="Achat éventuel d'une autre propriété">Achat éventuel d'une autre propriété</option>
-                        <option value="Séparation">Séparation</option>
+                        <option value="Séparation / Rachat de part">Séparation / Rachat de part</option>
+                        <option value="Séparation / Vente de la maison">Séparation / Vente de la maison</option>
                         <option value="Succession">Succession</option>
-                        <option value="Projet à moyen terme">Projet à moyen terme</option>
+                        <option value="Refinancement hypothécaire">Refinancement hypothécaire</option>
                         <option value="Simple mise à jour de valeur">Simple mise à jour de valeur</option>
                         <option value="Autre">Autre</option>
                       </select>
@@ -439,6 +441,7 @@ export default function FinaliserPreview() {
                         Horizon envisagé pour votre projet immobilier
                       </label>
                       <select
+                        required
                         value={formData.ideal_sale_deadline}
                         onChange={(e) => handleChange("ideal_sale_deadline", e.target.value)}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
