@@ -418,6 +418,7 @@ export default function FinaliserPreview() {
                         Quelle est la raison principale de votre demande ?
                       </label>
                       <select
+                        required
                         value={formData.sale_reason}
                         onChange={(e) => handleChange("sale_reason", e.target.value)}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
@@ -440,6 +441,7 @@ export default function FinaliserPreview() {
                         Horizon envisagé pour votre projet immobilier
                       </label>
                       <select
+                        required
                         value={formData.ideal_sale_deadline}
                         onChange={(e) => handleChange("ideal_sale_deadline", e.target.value)}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"
